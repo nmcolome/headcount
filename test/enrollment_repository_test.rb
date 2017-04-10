@@ -3,20 +3,19 @@ SimpleCov.start
 
 require 'minitest/autorun'
 require 'minitest/pride'
-require './lib/district_repository'
+require './lib/enrollment_repository'
 
-class TestDistrictRepository < Minitest::Test
-  
-  def test_it_exists
-    dr = DistrictRepository.new
+class TestEnrollmentRepository < Minitest::Test
 
-    assert_instance_of DistrictRepository, dr
+  def test_if_it_exists
+    er = EnrollmentRepository.new
+    assert_instance_of EnrollmentRepository, er
   end
 
   def test_it_loads_data
-    dr = DistrictRepository.new
+    er = EnrollmentRepository.new
 
-    data = dr.load_data({
+    data = er.load_data({
       :enrollment => {
         :kindergarten => "./data/Kindergartners in full-day program.csv"
       }
@@ -26,71 +25,71 @@ class TestDistrictRepository < Minitest::Test
   end
 
   def test_find_by_name_can_return_nil
-    dr = DistrictRepository.new
+    er = EnrollmentRepository.new
 
-    data = dr.load_data({
+    data = er.load_data({
       :enrollment => {
         :kindergarten => "./data/Kindergartners in full-day program.csv"
       }
     })
     
-    district = dr.find_by_name("UNLIKELY NAME")
+    enrollment = er.find_by_name("UNLIKELY NAME")
     
-    assert_nil district
+    assert_nil enrollment
   end
 
   def test_find_by_name_can_return_district_instance
-    dr = DistrictRepository.new
+    er = EnrollmentRepository.new
 
-    data = dr.load_data({
+    data = er.load_data({
       :enrollment => {
         :kindergarten => "./data/Kindergartners in full-day program.csv"
       }
     })
 
-    district = dr.find_by_name("ACADEMY 20")
+    enrollment = er.find_by_name("ACADEMY 20")
     
-    assert_equal District, district.class
+    assert_equal Enrollment, enrollment.class
   end
 
-  def test_find_by_name_can_return_district_instance_with_lowercase_argument
-    dr = DistrictRepository.new
+  def test_find_by_name_can_return_enrollment_instance_with_lowercase_argument
+    er = EnrollmentRepository.new
 
-    data = dr.load_data({
+    data = er.load_data({
       :enrollment => {
         :kindergarten => "./data/Kindergartners in full-day program.csv"
       }
     })
 
-    district = dr.find_by_name("academy 20")
+    enrollment = er.find_by_name("academy 20")
     
-    assert_equal District, district.class
+    assert_equal Enrollment, enrollment.class
   end
 
   def test_find_all_matching_can_return_empty_array
-    dr = DistrictRepository.new
+    er = EnrollmentRepository.new
 
-    data = dr.load_data({
+    data = er.load_data({
       :enrollment => {
         :kindergarten => "./data/Kindergartners in full-day program.csv"
       }
     })
 
-    districts = dr.find_all_matching("XXXXXRTY")
+    enrollments = er.find_all_matching("XXXXXRTY")
 
-    assert_equal [], districts
+    assert_equal [], enrollments
   end
 
   def test_find_all_matching_can_return_array_of_matches
-    dr = DistrictRepository.new
+    er = EnrollmentRepository.new
 
-    data = dr.load_data({
+    data = er.load_data({
       :enrollment => {
         :kindergarten => "./data/Kindergartners in full-day program.csv"
       }
     })
 
-    districts = dr.find_all_matching("academy")
+    enrollments = er.find_all_matching("academy")
     result = [
       "ACADEMY 20", 
       "ACADEMY 20", 
@@ -104,6 +103,6 @@ class TestDistrictRepository < Minitest::Test
       "ACADEMY 20", 
       "ACADEMY 20"
     ]
-    assert_equal result, districts
+    assert_equal result, enrollments
   end
 end

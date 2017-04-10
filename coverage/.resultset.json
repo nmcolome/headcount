@@ -1,12 +1,30 @@
 {
   "Unit Tests": {
     "coverage": {
-      "/Users/ccorrigan/turing/1module/headcount/lib/district.rb": [
+      "/Users/ccorrigan/turing/1module/headcount/lib/enrollment.rb": [
         1,
+        1,
+        1,
+        null,
+        1,
+        5,
+        5,
+        null,
+        null,
+        1,
+        5,
+        15,
+        null,
+        5,
+        null,
+        null,
+        1,
+        4,
+        4,
         null,
         null
       ]
     },
-    "timestamp": 1491856493
+    "timestamp": 1491865606
   }
 }

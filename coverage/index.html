@@ -14,7 +14,7 @@
       <img src="./assets/0.10.0/loading.gif" alt="loading"/>
     </div>
     <div id="wrapper" style="display:none;">
-      <div class="timestamp">Generated <abbr class="timeago" title="2017-04-10T14:34:53-06:00">2017-04-10T14:34:53-06:00</abbr></div>
+      <div class="timestamp">Generated <abbr class="timeago" title="2017-04-10T17:06:46-06:00">2017-04-10T17:06:46-06:00</abbr></div>
       <ul class="group_tabs"></ul>
 
       <div id="content">
@@ -24,16 +24,16 @@
     (<span class="covered_percent"><span class="green">100.0%</span></span>
      covered at
      <span class="covered_strength">
-       <span class="yellow">
-         1.0
+       <span class="green">
+         3.8
        </span>
     </span> hits/line)
   </h2>
   <a name="AllFiles"></a>
   <div>
     <b>1</b> files in total.
-    <b>1</b> relevant lines. 
-    <span class="green"><b>1</b> lines covered</span> and
+    <b>13</b> relevant lines. 
+    <span class="green"><b>13</b> lines covered</span> and
     <span class="red"><b>0</b> lines missed </span>
   </div>
   <table class="file_list">
@@ -51,13 +51,13 @@
     <tbody>
       
       <tr>
-        <td class="strong"><a href="#d7725284c979e630a1e89a02e9a905dfea5a2ea0" class="src_link" title="lib/district.rb">lib/district.rb</a></td>
+        <td class="strong"><a href="#c7620a0cbc3e70ebff9067f2c69e08a55d894a7b" class="src_link" title="lib/enrollment.rb">lib/enrollment.rb</a></td>
         <td class="green strong">100.0 %</td>
-        <td>3</td>
-        <td>1</td>
-        <td>1</td>
+        <td>21</td>
+        <td>13</td>
+        <td>13</td>
         <td>0</td>
-        <td>1.0</td>
+        <td>3.8</td>
       </tr>
       
     </tbody>
@@ -76,13 +76,13 @@
     
       <div class="source_files">
       
-        <div class="source_table" id="d7725284c979e630a1e89a02e9a905dfea5a2ea0">
+        <div class="source_table" id="c7620a0cbc3e70ebff9067f2c69e08a55d894a7b">
   <div class="header">
-    <h3>lib/district.rb</h3>
+    <h3>lib/enrollment.rb</h3>
     <h4><span class="green">100.0 %</span> covered</h4>
     <div>
-      <b>1</b> relevant lines. 
-      <span class="green"><b>1</b> lines covered</span> and
+      <b>13</b> relevant lines. 
+      <span class="green"><b>13</b> lines covered</span> and
       <span class="red"><b>0</b> lines missed.</span>
     </div>
   </div>
@@ -93,16 +93,124 @@
         <li class="covered" data-hits="1" data-linenumber="1">
           <span class="hits">1</span>
           
-          <code class="ruby">class District</code>
+          <code class="ruby">require &#39;pry&#39;</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="2">
+        <li class="covered" data-hits="1" data-linenumber="2">
+          <span class="hits">1</span>
+          
+          <code class="ruby">class Enrollment</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="3">
+          <span class="hits">1</span>
+          
+          <code class="ruby">  attr_reader :name, :kindergarten_participation</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="4">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="3">
+        <li class="covered" data-hits="1" data-linenumber="5">
+          <span class="hits">1</span>
+          
+          <code class="ruby">  def initialize(args)</code>
+        </li>
+      
+        <li class="covered" data-hits="5" data-linenumber="6">
+          <span class="hits">5</span>
+          
+          <code class="ruby">    @name = args[:name]</code>
+        </li>
+      
+        <li class="covered" data-hits="5" data-linenumber="7">
+          <span class="hits">5</span>
+          
+          <code class="ruby">    @kindergarten_participation = args[:kindergarten_participation]</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="8">
+          
+          
+          <code class="ruby">  end</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="9">
+          
+          
+          <code class="ruby"></code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="10">
+          <span class="hits">1</span>
+          
+          <code class="ruby">  def kindergarten_participation_by_year</code>
+        </li>
+      
+        <li class="covered" data-hits="5" data-linenumber="11">
+          <span class="hits">5</span>
+          
+          <code class="ruby">    kindergarten_participation.keys.each do |key|</code>
+        </li>
+      
+        <li class="covered" data-hits="15" data-linenumber="12">
+          <span class="hits">15</span>
+          
+          <code class="ruby">      kindergarten_participation[key] = kindergarten_participation[key].to_s[0..4].to_f</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="13">
+          
+          
+          <code class="ruby">    end</code>
+        </li>
+      
+        <li class="covered" data-hits="5" data-linenumber="14">
+          <span class="hits">5</span>
+          
+          <code class="ruby">    kindergarten_participation</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="15">
+          
+          
+          <code class="ruby">  end</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="16">
+          
+          
+          <code class="ruby"></code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="17">
+          <span class="hits">1</span>
+          
+          <code class="ruby">  def kindergarten_participation_in_year(year)</code>
+        </li>
+      
+        <li class="covered" data-hits="4" data-linenumber="18">
+          <span class="hits">4</span>
+          
+          <code class="ruby">    year = year.to_i</code>
+        </li>
+      
+        <li class="covered" data-hits="4" data-linenumber="19">
+          <span class="hits">4</span>
+          
+          <code class="ruby">    kindergarten_participation_by_year[year]</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="20">
+          
+          
+          <code class="ruby">  end</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="21">
           
           
           <code class="ruby">end</code>
