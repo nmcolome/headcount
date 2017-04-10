@@ -91,19 +91,9 @@ class TestDistrictRepository < Minitest::Test
     })
 
     districts = dr.find_all_matching("academy")
-    result = [
-      "ACADEMY 20", 
-      "ACADEMY 20", 
-      "ACADEMY 20", 
-      "ACADEMY 20", 
-      "ACADEMY 20", 
-      "ACADEMY 20", 
-      "ACADEMY 20", 
-      "ACADEMY 20", 
-      "ACADEMY 20", 
-      "ACADEMY 20", 
-      "ACADEMY 20"
-    ]
-    assert_equal result, districts
+
+    assert_equal Array, districts.class
+    assert_equal 11, districts.count
+    assert_equal District, districts.first.class
   end
 end

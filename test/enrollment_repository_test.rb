@@ -90,19 +90,9 @@ class TestEnrollmentRepository < Minitest::Test
     })
 
     enrollments = er.find_all_matching("academy")
-    result = [
-      "ACADEMY 20", 
-      "ACADEMY 20", 
-      "ACADEMY 20", 
-      "ACADEMY 20", 
-      "ACADEMY 20", 
-      "ACADEMY 20", 
-      "ACADEMY 20", 
-      "ACADEMY 20", 
-      "ACADEMY 20", 
-      "ACADEMY 20", 
-      "ACADEMY 20"
-    ]
-    assert_equal result, enrollments
+    
+    assert_equal Array, enrollments.class
+    assert_equal 11, enrollments.count
+    assert_equal Enrollment, enrollments.first.class
   end
 end

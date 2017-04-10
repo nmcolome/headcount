@@ -23,7 +23,9 @@ module Repository
       district = row[:location]
       district.upcase.include?(district_name.upcase)
     end
-    get_location_name(matches.compact)
+    matches.compact.map do |row|
+      new_instance(row[:location])
+    end
   end
 
   def get_location_name(rows)
