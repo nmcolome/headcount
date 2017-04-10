@@ -24,4 +24,17 @@ class TestDistrictRepository < Minitest::Test
 
     assert_equal CSV, data.class
   end
+
+  def test_find_by_name
+    dr = DistrictRepository.new
+
+    data = dr.load_data({
+      :enrollment => {
+        :kindergarten => "./data/Kindergartners in full-day program.csv"
+      }
+    })
+    district = dr.find_by_name("ACADEMY 20")
+    
+    assert_equal District, district.class
+  end
 end
