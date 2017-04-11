@@ -6,7 +6,7 @@ module Repository
     #statewide_testing = args[:statewide_testing]
     #economic_profile = args[:economic_profile]
     kindergarten = enrollment[:kindergarten]
-    @data = CSV.open(kindergarten, headers: true, header_converters: :symbol)
+    @data = Data.new(CSV.open(kindergarten, headers: true, header_converters: :symbol))
     data
   end
 
