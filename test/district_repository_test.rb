@@ -82,7 +82,6 @@ class TestDistrictRepository < Minitest::Test
   end
 
   def test_find_all_matching_can_return_array_of_matches
-    skip
     dr = DistrictRepository.new
 
     data = dr.load_data({
@@ -91,10 +90,10 @@ class TestDistrictRepository < Minitest::Test
       }
     })
 
-    districts = dr.find_all_matching("academy")
+    districts = dr.find_all_matching("we")
 
     assert_equal Array, districts.class
-    assert_equal 11, districts.count
+    assert_equal 7, districts.count
     assert_equal District, districts.first.class
   end
 end
