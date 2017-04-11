@@ -45,7 +45,7 @@ class TestEnrollment < Minitest::Test
   end
 
   def test_kindergarten_participation_in_year_in_delta
-    skip
+    # skip
     er = EnrollmentRepository.new
     er.load_data({
                   :enrollment => {

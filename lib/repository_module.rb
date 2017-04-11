@@ -36,8 +36,8 @@ module Repository
     matches.uniq.compact
   end
 
-  def participation
-    @data.participation 
+  def district_participation
+    @data.district_participation 
   end
 
 end
