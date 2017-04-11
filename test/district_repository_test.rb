@@ -22,7 +22,7 @@ class TestDistrictRepository < Minitest::Test
       }
     })
 
-    assert_equal CSV, data.class
+    assert_equal DataTable, data.class
   end
 
   def test_find_by_name_can_return_nil
@@ -90,10 +90,10 @@ class TestDistrictRepository < Minitest::Test
       }
     })
 
-    districts = dr.find_all_matching("academy")
+    districts = dr.find_all_matching("we")
 
     assert_equal Array, districts.class
-    assert_equal 11, districts.count
+    assert_equal 7, districts.count
     assert_equal District, districts.first.class
   end
 end

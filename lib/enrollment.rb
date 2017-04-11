@@ -12,7 +12,6 @@ class Enrollment
   # end
   
   def kindergarten_participation_by_year
-    #binding.pry
     kindergarten_participation.keys.each do |key|
       kindergarten_participation[key] = kindergarten_participation[key].to_s[0..4].to_f
     end
