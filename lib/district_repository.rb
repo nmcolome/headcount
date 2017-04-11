@@ -1,6 +1,8 @@
 require 'csv'
 require_relative 'district'
 require_relative 'repository_module'
+require_relative 'data_table'
+
 require 'pry'
 
 class DistrictRepository

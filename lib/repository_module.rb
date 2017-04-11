@@ -1,22 +1,23 @@
 require 'pry'
+
 module Repository
-    attr_reader :data
+  attr_reader :data
+
   def load_data(args)
     enrollment = args[:enrollment]
     #statewide_testing = args[:statewide_testing]
     #economic_profile = args[:economic_profile]
-    kindergarten = enrollment[:kindergarten]
-    @data = Data.new(CSV.open(kindergarten, headers: true, header_converters: :symbol))
-    data
+    kindergarten = enrollment[:kindergarten] 
+    @data = DataTable.new(kindergarten) #iterate through hash to create each table
   end
 
   def find_by_name(district_name)
-    data.find do |row|
-      district = row[:location]
-      if district.upcase == district_name.upcase
-        #binding.pry
-        return new_instance(district_name.upcase, row) #For enrollment, might need add another argument or parameter option
-      end
+    # binding.pry
+    district_is_in_data = @data.district.any? do |name|
+      name.upcase == district_name.upcase
+    end
+    if district_is_in_data
+      return new_instance(district_name.upcase) #For enrollment, might need add another argument or parameter option
     end
   end  
 
