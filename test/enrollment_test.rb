@@ -4,6 +4,8 @@ SimpleCov.start
 require 'minitest/autorun'
 require 'minitest/pride'
 require './lib/enrollment'
+require './lib/enrollment_repository'
+require 'pry'
 
 class TestEnrollment < Minitest::Test
   def setup
@@ -25,7 +27,7 @@ class TestEnrollment < Minitest::Test
   end
 
   def test_kindergarten_participation_in_year_can_return_participation
-    participation_in_year = @e.kindergarten_participation_in_year("2010")
+    participation_in_year = @e.kindergarten_participation_in_year(2010)
     assert_equal 0.391, participation_in_year
   end
 
@@ -40,5 +42,20 @@ class TestEnrollment < Minitest::Test
   def test_kindergarten_participation_in_year_will_reject_two_digit_input
     participation_in_year = @e.kindergarten_participation_in_year(07)
     assert_nil participation_in_year
+  end
+
+  def test_kindergarten_participation_in_year_in_delta
+    er = EnrollmentRepository.new
+    er.load_data({
+                  :enrollment => {
+                    :kindergarten => "./data/Kindergartners in full-day program.csv"
+                  }
+                })
+
+    name = "GUNNISON WATERSHED RE1J"
+    enrollment = er.find_by_name(name)
+    assert_equal name, enrollment.name
+    assert enrollment.is_a?(Enrollment)
+    assert_in_delta 0.144, enrollment.kindergarten_participation_in_year(2004), 0.005
   end
 end

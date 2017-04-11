@@ -1,3 +1,4 @@
+require 'pry'
 module Repository
     attr_reader :data
   def load_data(args)
@@ -13,7 +14,8 @@ module Repository
     data.find do |row|
       district = row[:location]
       if district.upcase == district_name.upcase
-        return new_instance(district_name.upcase) #For enrollment, might need add another argument or parameter option
+        #binding.pry
+        return new_instance(district_name.upcase, row) #For enrollment, might need add another argument or parameter option
       end
     end
   end  
@@ -23,8 +25,9 @@ module Repository
       district = row[:location]
       district.upcase.include?(district_name.upcase)
     end
-    matches.compact.map do |row|
-      new_instance(row[:location])
+    unique_locations = get_location_name(matches).uniq.compact
+    unique_locations.map do |location|
+      new_instance(location)
     end
   end
 
