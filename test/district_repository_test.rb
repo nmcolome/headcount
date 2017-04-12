@@ -115,12 +115,15 @@ class TestDistrictRepository < Minitest::Test
     })
     #binding.pry
     district = dr.find_by_name("ACADEMY 20")
-    #binding.pry
+    #------------------------------------------------------
+    #------------------------------------------------------
     assert_equal District, district.class
     assert_equal "ACADEMY 20", district.name
-    assert_equal EnrollmentRepository, district.enrollment.class
-    assert_equal DataTable, district.enrollment.data_set.class
+    assert_equal Enrollment, district.enrollment.class
+    assert_equal DataTable, district.enrollment_repository.data_set.class
     output = district.enrollment.kindergarten_participation_in_year(2010)
-    # assert_equal 0.436, output
+    assert_equal 0.436, output
+    #------------------------------------------------------
+    #------------------------------------------------------
   end
 end
