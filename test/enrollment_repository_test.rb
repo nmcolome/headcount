@@ -21,7 +21,7 @@ class TestEnrollmentRepository < Minitest::Test
       }
     })
 
-    assert_equal CSV, data.class
+    assert_equal DataTable, data.class
   end
 
   def test_find_by_name_can_return_nil
@@ -92,7 +92,7 @@ class TestEnrollmentRepository < Minitest::Test
     enrollments = er.find_all_matching("academy")
     
     assert_equal Array, enrollments.class
-    assert_equal 11, enrollments.count
+    assert_equal 1, enrollments.count
     assert_equal Enrollment, enrollments.first.class
   end
 end
