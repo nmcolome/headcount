@@ -1,10 +1,19 @@
 require_relative 'repository_module'
+require_relative 'enrollment'
 require_relative 'data_table'
 require 'csv'
 require 'pry'
 
 class EnrollmentRepository
   include Repository
+
+  attr_reader :data_set
+
+  def get_data_set(data_set)
+    # if data_set.nil?
+      
+      @data_set = data_set
+  end
 
   def new_instance(district_name)
     Enrollment.new({:name => district_name, :kindergarten_participation => get_kindergarten_participation(district_name) })

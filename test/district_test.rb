@@ -12,4 +12,5 @@ class TestDistrict < Minitest::Test
     assert_instance_of District, d
     assert_equal "ACADEMY 20", d.name
   end
+
 end

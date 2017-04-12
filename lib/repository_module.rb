@@ -6,7 +6,7 @@ module Repository
     #statewide_testing = args[:statewide_testing]
     #economic_profile = args[:economic_profile]
     kindergarten = enrollment[:kindergarten] 
-    @data = DataTable.new(kindergarten) #iterate through hash to create each table
+    @data_set = DataTable.new(kindergarten) #iterate through hash to create each table
   end
 
   def find_by_name(district_name)
@@ -14,7 +14,7 @@ module Repository
   end
 
   def is_district_in_data?(district_name)
-    @data.district.any? do |name|
+    @data_set.district.any? do |name|
       name.upcase == district_name.upcase
     end
   end
@@ -27,7 +27,7 @@ module Repository
   end
 
   def collect_matches(district_name)
-    @data.district.find_all do |name|
+    @data_set.district.find_all do |name|
       name.upcase.include?(district_name.upcase)
     end
   end
@@ -37,7 +37,7 @@ module Repository
   end
 
   def district_participation
-    @data.district_participation 
+    @data_set.district_participation 
   end
 
 end
