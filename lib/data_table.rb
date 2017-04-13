@@ -11,7 +11,9 @@ class DataTable
   end
 
   def get_contents
-    contents = CSV.open(filename_path, headers: true, header_converters: :symbol)
+    contents = CSV.open(filename_path,
+                        headers: true,
+                        header_converters: :symbol)
     contents.map do |row|
       DataRow.new(row)
     end
@@ -22,7 +24,7 @@ class DataTable
       row.district
     end
   end
-  
+
   def district_participation
     participation_by_district.map do |collection|
       year_data = collection[1]
@@ -30,7 +32,7 @@ class DataTable
       [collection[0], year_data]
     end
   end
-  
+
   def all_participation_data
     contents.map do |row|
       [row.district, {row.year.to_i => row.data_value[0..4].to_f}]

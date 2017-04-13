@@ -14,14 +14,17 @@ class DistrictRepository
   end
 
   def new_instance(district_name)
-    District.new({:name => district_name, :enrollment_repository => enrollment_repository, :data_set => @data_set})
+    District.new({:name => district_name,
+                  :enrollment_repository => enrollment_repository,
+                  :data_set => @data_set
+                })
   end
 
   def load_data(args)
     enrollment = args[:enrollment]
     #statewide_testing = args[:statewide_testing]
     #economic_profile = args[:economic_profile]
-    kindergarten = enrollment[:kindergarten] 
-    @data_set = DataTable.new(kindergarten) #iterate through hash to create each table
+    kindergarten = enrollment[:kindergarten]
+    @data_set = DataTable.new(kindergarten)
   end
 end

@@ -2,7 +2,7 @@ require 'csv'
 
 class DataRow
   attr_reader :district, :year, :data_format, :data_value
-  
+
   def initialize(row_data)
     @district = row_data[:location] # be aware of different names -- use \\
     @year = row_data[:timeframe]

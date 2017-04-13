@@ -1,6 +1,6 @@
 class District
   attr_reader :name, :enrollment_repository, :data_set, :enrollment
-  
+
   def initialize(args)
     @name = args[:name]
     @enrollment_repository = args[:enrollment_repository]

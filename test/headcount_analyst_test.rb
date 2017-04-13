@@ -35,6 +35,6 @@ class TestHeadcountAnalyst < Minitest::Test
 
     outcome = @ha.kindergarten_participation_rate_variation_trend('ACADEMY 20', :against => 'COLORADO')
     expected = {2004 => 1.257, 2005 => 0.96, 2006 => 1.05, 2007 => 0.992, 2008 => 0.717, 2009 => 0.652, 2010 => 0.681, 2011 => 0.727, 2012 => 0.688, 2013 => 0.694, 2014 => 0.661 }
-    assert_equal expected[2004], outcome[2004]
+    assert_equal expected[2005], outcome[2005]
   end
 end

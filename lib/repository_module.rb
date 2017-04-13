@@ -5,12 +5,14 @@ module Repository
     enrollment = args[:enrollment]
     #statewide_testing = args[:statewide_testing]
     #economic_profile = args[:economic_profile]
-    kindergarten = enrollment[:kindergarten] 
-    @data_set = DataTable.new(kindergarten) #iterate through hash to create each table
+    kindergarten = enrollment[:kindergarten]
+    @data_set = DataTable.new(kindergarten)
   end
 
   def find_by_name(district_name)
-    return new_instance(district_name.upcase) if is_district_in_data?(district_name) #For enrollment, might need add another argument or parameter option
+    if is_district_in_data?(district_name)
+      return new_instance(district_name.upcase)
+    end
   end
 
   def is_district_in_data?(district_name)
@@ -37,7 +39,7 @@ module Repository
   end
 
   def district_participation
-    @data_set.district_participation 
+    @data_set.district_participation
   end
 
 end

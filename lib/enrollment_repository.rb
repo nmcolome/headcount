@@ -14,7 +14,9 @@ class EnrollmentRepository
   end
 
   def new_instance(district_name)
-    Enrollment.new({:name => district_name, :kindergarten_participation => get_kindergarten_participation(district_name) })
+    Enrollment.new({:name => district_name,
+                    :kindergarten_participation => get_kindergarten_participation(district_name)
+                  })
   end
 
   def get_kindergarten_participation(district_name)
