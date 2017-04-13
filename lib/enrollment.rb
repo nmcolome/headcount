@@ -4,12 +4,8 @@ class Enrollment
 
   def initialize(args)
     @name = args[:name]
-    @kindergarten_participation = args[:kindergarten_participation] #|| generate_participation
+    @kindergarten_participation = args[:kindergarten_participation]
   end
-
-  # def generate_participation
-  #   "It's gonna be ok!"
-  # end
   
   def kindergarten_participation_by_year
     kindergarten_participation.keys.each do |key|

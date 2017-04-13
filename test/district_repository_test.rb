@@ -1,8 +1,5 @@
-require 'simplecov'
-SimpleCov.start
+require_relative 'test_helper'
 
-require 'minitest/autorun'
-require 'minitest/pride'
 require './lib/district_repository'
 
 class TestDistrictRepository < Minitest::Test
@@ -81,7 +78,7 @@ class TestDistrictRepository < Minitest::Test
     assert_equal [], districts
   end
 
-  def test_find_all_matching_can_return_array_of_matches
+  def test_automatic_creation_of_enrollment_repository
     dr = DistrictRepository.new
 
     data = dr.load_data({
@@ -90,10 +87,92 @@ class TestDistrictRepository < Minitest::Test
       }
     })
 
-    districts = dr.find_all_matching("we")
+    assert_instance_of EnrollmentRepository, dr.enrollment_repository
+  end
 
-    assert_equal Array, districts.class
-    assert_equal 7, districts.count
-    assert_equal District, districts.first.class
+  def test_district_has_access_to_enrollment_repository
+    dr = DistrictRepository.new
+
+    data = dr.load_data({
+      :enrollment => {
+        :kindergarten => "./data/Kindergartners in full-day program.csv"
+      }
+    })
+
+    district = dr.find_by_name("ACADEMY 20")
+    
+    assert_equal EnrollmentRepository, district.enrollment_repository.class
+  end
+
+  def test_district_has_access_to_data_set
+    dr = DistrictRepository.new
+
+    data = dr.load_data({
+      :enrollment => {
+        :kindergarten => "./data/Kindergartners in full-day program.csv"
+      }
+    })
+
+    district = dr.find_by_name("ACADEMY 20")
+    
+    assert_equal DataTable, district.data_set.class
+  end
+
+  def test_district_has_access_to_enrollment_repository_data
+    dr = DistrictRepository.new
+
+    data = dr.load_data({
+      :enrollment => {
+        :kindergarten => "./data/Kindergartners in full-day program.csv"
+      }
+    })
+
+    district = dr.find_by_name("ACADEMY 20")
+    
+    assert_equal DataTable, district.enrollment_repository.data_set.class
+  end
+
+  def test_district_can_create_new_enrollment_object
+    dr = DistrictRepository.new
+
+    data = dr.load_data({
+      :enrollment => {
+        :kindergarten => "./data/Kindergartners in full-day program.csv"
+      }
+    })
+
+    district = dr.find_by_name("ACADEMY 20")
+    
+    assert_equal Enrollment, district.enrollment.class
+  end
+
+  def test_district_can_access_kindergarten_participation_in_year
+    dr = DistrictRepository.new
+
+    data = dr.load_data({
+      :enrollment => {
+        :kindergarten => "./data/Kindergartners in full-day program.csv"
+      }
+    })
+
+    district = dr.find_by_name("ACADEMY 20")
+    output = district.enrollment.kindergarten_participation_in_year(2010)
+    
+    assert_equal 0.436, output
+  end
+
+  def test_district_can_access_kindergarten_participation_in_year
+    dr = DistrictRepository.new
+
+    data = dr.load_data({
+      :enrollment => {
+        :kindergarten => "./data/Kindergartners in full-day program.csv"
+      }
+    })
+
+    district = dr.find_by_name("ACADEMY 20")
+    output = district.enrollment.kindergarten_participation_by_year
+    
+    assert_equal Hash, output.class
   end
 end
