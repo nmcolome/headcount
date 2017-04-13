@@ -34,6 +34,25 @@ class HeadcountAnalyst
 
   def variation(dividend, divisor)
     rate = dividend / divisor
-    rate.to_s[0..4].to_f
+    ("%.3f" % rate).to_f
+  end
+  
+  def kindergarten_participation_rate_variation_trend(district_name, comparison)
+    district = initialize_district(district_name)
+    comparison_district = initialize_district(comparison[:against])
+    district_set = get_participation(district)
+    comparison_set = get_participation(comparison_district)
+    combined_data_set = [district_set, comparison_set]
+    merged_data_set = Hash.new{|hash, key| hash[key] = []} 
+    combined_data_set.each do |district|
+      district.each do |key, value|
+        merged_data_set[key] << value
+      end
+    end
+    rate_variation_trend = {}
+    merged_data_set.each do |key, value|
+      rate_variation_trend[key] = variation(value[0], value[1])
+    end
+    rate_variation_trend
   end
 end
