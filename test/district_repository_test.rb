@@ -1,8 +1,5 @@
-require 'simplecov'
-SimpleCov.start
+require_relative 'test_helper'
 
-require 'minitest/autorun'
-require 'minitest/pride'
 require './lib/district_repository'
 
 class TestDistrictRepository < Minitest::Test
@@ -162,5 +159,20 @@ class TestDistrictRepository < Minitest::Test
     output = district.enrollment.kindergarten_participation_in_year(2010)
     
     assert_equal 0.436, output
+  end
+
+  def test_district_can_access_kindergarten_participation_in_year
+    dr = DistrictRepository.new
+
+    data = dr.load_data({
+      :enrollment => {
+        :kindergarten => "./data/Kindergartners in full-day program.csv"
+      }
+    })
+
+    district = dr.find_by_name("ACADEMY 20")
+    output = district.enrollment.kindergarten_participation_by_year
+    
+    assert_equal Hash, output.class
   end
 end

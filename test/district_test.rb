@@ -1,8 +1,5 @@
-require 'simplecov'
-SimpleCov.start
+require_relative 'test_helper'
 
-require 'minitest/autorun'
-require 'minitest/pride'
 require './lib/district.rb'
 
 class TestDistrict < Minitest::Test

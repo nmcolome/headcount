@@ -1,11 +1,7 @@
-require 'simplecov'
-SimpleCov.start
+require_relative 'test_helper'
 
-require 'minitest/autorun'
-require 'minitest/pride'
 require './lib/enrollment'
 require './lib/enrollment_repository'
-require 'pry'
 
 class TestEnrollment < Minitest::Test
   def setup

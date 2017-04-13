@@ -10,8 +10,6 @@ class EnrollmentRepository
   attr_reader :data_set
 
   def get_data_set(data_set)
-    # if data_set.nil?
-      
       @data_set = data_set
   end
 
@@ -21,7 +19,7 @@ class EnrollmentRepository
 
   def get_kindergarten_participation(district_name)
     kinder_participation = district_participation.select do |district|
-      district.first == district_name
+      district.first.upcase == district_name.upcase
     end
     kinder_participation.flatten.last
   end
