@@ -22,9 +22,24 @@ class DistrictRepository
 
   def load_data(args)
     enrollment = args[:enrollment]
-    #statewide_testing = args[:statewide_testing]
-    #economic_profile = args[:economic_profile]
-    kindergarten = enrollment[:kindergarten]
-    @data_set = DataTable.new(kindergarten)
+    statewide_testing = args[:statewide_testing]
+    economic_profile = args[:economic_profile]
+
+    get_data(args)
   end
+
+  def get_data(*arguments)
+    @data_set = {}
+          # binding.pry    
+    arguments.first.each do |key, value|
+      if !value.nil?
+        value.each do |v_key, v_value|
+          # binding.pry
+          @data_set[key] = (value[v_key] = DataTable.new(v_value))
+        end
+      end
+    end
+    p @data_set
+  end
+
 end

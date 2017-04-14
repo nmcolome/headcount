@@ -16,8 +16,17 @@ module Repository
   end
 
   def is_district_in_data?(district_name)
-    @data_set.district.any? do |name|
-      name.upcase == district_name.upcase
+    district_in_data = []
+    @data_set.values.each do |value|
+      result = value.district.any? do |name|
+        name.upcase == district_name.upcase
+      end
+      district_in_data << result
+    end
+    if district_in_data.include?(true)
+      true
+    else
+      false
     end
   end
 
@@ -39,7 +48,8 @@ module Repository
   end
 
   def district_participation
-    @data_set.district_participation
+    binding.pry
+    @data_set[:enrollment][:kindergarten].district_participation
   end
 
 end
