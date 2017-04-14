@@ -200,17 +200,15 @@ class TestDistrictRepository < Minitest::Test
     dr = DistrictRepository.new
 
     output = dr.load_data({
-              :enrollment => {
-                :kindergarten => "./test/fixtures/small_kinder.csv",
-                :high_school_graduation => "./test/fixtures/small_hs_grad.csv"
-              },
-              :economic_profile => {
-    :median_household_income => "./data/Median household income.csv",
-    :children_in_poverty => "./data/School-aged children in poverty.csv",
-    :free_or_reduced_price_lunch => "./data/Students qualifying for free or reduced price lunch.csv",
-    :title_i => "./data/Title I students.csv"
-  }
-            })
+      :enrollment => {
+        :kindergarten => "./test/fixtures/small_kinder.csv",
+        :high_school_graduation => "./test/fixtures/small_hs_grad.csv"
+      },
+      :economic_profile => {
+        :median_household_income => "./test/fixtures/small_median_house_income.csv",
+        :children_in_poverty => "./test/fixtures/small_child_poverty.csv",
+        :title_i => "./test/fixtures/small_title_1.csv"
+      }})
 
     assert_equal Hash, output.class
   end

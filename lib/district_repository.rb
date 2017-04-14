@@ -28,18 +28,16 @@ class DistrictRepository
     get_data(args)
   end
 
-  def get_data(*arguments)
+  def get_data(arguments)
     @data_set = {}
-          # binding.pry    
-    arguments.first.each do |key, value|
+    arguments.each do |key, value|
       if !value.nil?
-        value.each do |v_key, v_value|
-          # binding.pry
-          @data_set[key] = (value[v_key] = DataTable.new(v_value))
+        @data_set[key] = value.each do |v_key, v_value|
+          value[v_key] = DataTable.new(v_value)
         end
       end
     end
-    p @data_set
+    @data_set
   end
 
 end

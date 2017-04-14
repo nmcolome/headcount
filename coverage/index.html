@@ -14,7 +14,7 @@
       <img src="./assets/0.10.0/loading.gif" alt="loading"/>
     </div>
     <div id="wrapper" style="display:none;">
-      <div class="timestamp">Generated <abbr class="timeago" title="2017-04-13T18:13:56-06:00">2017-04-13T18:13:56-06:00</abbr></div>
+      <div class="timestamp">Generated <abbr class="timeago" title="2017-04-13T19:53:10-06:00">2017-04-13T19:53:10-06:00</abbr></div>
       <ul class="group_tabs"></ul>
 
       <div id="content">
@@ -25,7 +25,7 @@
      covered at
      <span class="covered_strength">
        <span class="green">
-         870.0
+         1.9
        </span>
     </span> hits/line)
   </h2>
@@ -57,7 +57,7 @@
         <td>8</td>
         <td>8</td>
         <td>0</td>
-        <td>11126.5</td>
+        <td>15.5</td>
       </tr>
       
       <tr>
@@ -67,7 +67,7 @@
         <td>29</td>
         <td>16</td>
         <td>13</td>
-        <td>768.5</td>
+        <td>2.1</td>
       </tr>
       
       <tr>
@@ -83,11 +83,11 @@
       <tr>
         <td class="strong"><a href="#5fae270e99a2b49da837a6e600f9df486bdb9ae1" class="src_link" title="lib/district_repository.rb">lib/district_repository.rb</a></td>
         <td class="green strong">95.83 %</td>
-        <td>45</td>
+        <td>43</td>
         <td>24</td>
         <td>23</td>
         <td>1</td>
-        <td>1.3</td>
+        <td>1.2</td>
       </tr>
       
       <tr>
@@ -186,26 +186,26 @@
           <code class="ruby">  def initialize(row_data)</code>
         </li>
       
-        <li class="covered" data-hits="22252" data-linenumber="7">
-          <span class="hits">22252</span>
+        <li class="covered" data-hits="30" data-linenumber="7">
+          <span class="hits">30</span>
           
           <code class="ruby">    @district = row_data[:location] # be aware of different names -- use \\</code>
         </li>
       
-        <li class="covered" data-hits="22252" data-linenumber="8">
-          <span class="hits">22252</span>
+        <li class="covered" data-hits="30" data-linenumber="8">
+          <span class="hits">30</span>
           
           <code class="ruby">    @year = row_data[:timeframe]</code>
         </li>
       
-        <li class="covered" data-hits="22252" data-linenumber="9">
-          <span class="hits">22252</span>
+        <li class="covered" data-hits="30" data-linenumber="9">
+          <span class="hits">30</span>
           
           <code class="ruby">    @data_format = row_data[:dataformat]</code>
         </li>
       
-        <li class="covered" data-hits="22252" data-linenumber="10">
-          <span class="hits">22252</span>
+        <li class="covered" data-hits="30" data-linenumber="10">
+          <span class="hits">30</span>
           
           <code class="ruby">    @data_value = row_data[:data] #remember to add inst_variables for score, etc..</code>
         </li>
@@ -288,14 +288,14 @@
           <code class="ruby">  def initialize(filename_path)</code>
         </li>
       
-        <li class="covered" data-hits="6" data-linenumber="9">
-          <span class="hits">6</span>
+        <li class="covered" data-hits="5" data-linenumber="9">
+          <span class="hits">5</span>
           
           <code class="ruby">    @filename_path = filename_path</code>
         </li>
       
-        <li class="covered" data-hits="6" data-linenumber="10">
-          <span class="hits">6</span>
+        <li class="covered" data-hits="5" data-linenumber="10">
+          <span class="hits">5</span>
           
           <code class="ruby">    @contents = get_contents</code>
         </li>
@@ -318,8 +318,8 @@
           <code class="ruby">  def get_contents</code>
         </li>
       
-        <li class="covered" data-hits="6" data-linenumber="14">
-          <span class="hits">6</span>
+        <li class="covered" data-hits="5" data-linenumber="14">
+          <span class="hits">5</span>
           
           <code class="ruby">    contents = CSV.open(filename_path,</code>
         </li>
@@ -336,14 +336,14 @@
           <code class="ruby">                        header_converters: :symbol)</code>
         </li>
       
-        <li class="covered" data-hits="6" data-linenumber="17">
-          <span class="hits">6</span>
+        <li class="covered" data-hits="5" data-linenumber="17">
+          <span class="hits">5</span>
           
           <code class="ruby">    contents.map do |row|</code>
         </li>
       
-        <li class="covered" data-hits="22252" data-linenumber="18">
-          <span class="hits">22252</span>
+        <li class="covered" data-hits="30" data-linenumber="18">
+          <span class="hits">30</span>
           
           <code class="ruby">      DataRow.new(row)</code>
         </li>
@@ -843,7 +843,7 @@
         <li class="covered" data-hits="1" data-linenumber="31">
           <span class="hits">1</span>
           
-          <code class="ruby">  def get_data(*arguments)</code>
+          <code class="ruby">  def get_data(arguments)</code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="32">
@@ -852,79 +852,67 @@
           <code class="ruby">    @data_set = {}</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="33">
-          
-          
-          <code class="ruby">          # binding.pry    </code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="34">
+        <li class="covered" data-hits="1" data-linenumber="33">
           <span class="hits">1</span>
           
-          <code class="ruby">    arguments.first.each do |key, value|</code>
+          <code class="ruby">    arguments.each do |key, value|</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="35">
+        <li class="covered" data-hits="2" data-linenumber="34">
           <span class="hits">2</span>
           
           <code class="ruby">      if !value.nil?</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="36">
+        <li class="covered" data-hits="2" data-linenumber="35">
           <span class="hits">2</span>
           
-          <code class="ruby">        value.each do |v_key, v_value|</code>
+          <code class="ruby">        @data_set[key] = value.each do |v_key, v_value|</code>
+        </li>
+      
+        <li class="covered" data-hits="5" data-linenumber="36">
+          <span class="hits">5</span>
+          
+          <code class="ruby">          value[v_key] = DataTable.new(v_value)</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="37">
           
           
-          <code class="ruby">          # binding.pry</code>
-        </li>
-      
-        <li class="covered" data-hits="6" data-linenumber="38">
-          <span class="hits">6</span>
-          
-          <code class="ruby">          @data_set[key] = (value[v_key] = DataTable.new(v_value))</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="39">
-          
-          
           <code class="ruby">        end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="40">
+        <li class="never" data-hits="" data-linenumber="38">
           
           
           <code class="ruby">      end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="41">
+        <li class="never" data-hits="" data-linenumber="39">
           
           
           <code class="ruby">    end</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="42">
+        <li class="covered" data-hits="1" data-linenumber="40">
           <span class="hits">1</span>
           
-          <code class="ruby">    p @data_set</code>
+          <code class="ruby">    @data_set</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="43">
+        <li class="never" data-hits="" data-linenumber="41">
           
           
           <code class="ruby">  end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="44">
+        <li class="never" data-hits="" data-linenumber="42">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="45">
+        <li class="never" data-hits="" data-linenumber="43">
           
           
           <code class="ruby">end</code>
