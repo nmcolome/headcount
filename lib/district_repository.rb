@@ -40,4 +40,7 @@ class DistrictRepository
     @data_set
   end
 
+  # def all_data(category, file_object)
+  #   enrollment.all_participation_data(category, file_object)
+  # end
 end

@@ -62,9 +62,9 @@ class EnrollmentRepository
     end
   end
 
-  def all_participation_data(category, file_object)
-    @data_set[category][file_object].contents.map do |row|
-      [row.district, {row.year.to_i => row.data_value[0..4].to_f}]
-    end
-  end
+  # def all_participation_data(category, file_object)
+  #   @data_set[category][file_object].contents.map do |row|
+  #     [row.district, {row.year.to_i => row.data_value[0..4].to_f}]
+  #   end
+  # end
 end

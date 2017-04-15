@@ -85,4 +85,48 @@ class HeadcountAnalyst
     correlation = kindergarten_participation_rate_variation(district_name, :against => 'COLORADO') / graduation_rate_variation(district_name, :against => 'COLORADO')
     correlation.to_s[0..4].to_f
   end
+
+  def kindergarten_participation_correlates_with_high_school_graduation(for_district)
+    if for_district[:for] == 'STATEWIDE'
+      # all_districts = district_repository.data_set[:enrollment][:kindergarten].district.uniq
+      # all_districts.shift
+      all_district_correlations = []
+      find_all_districts_with_data.each do |district|
+        all_district_correlations << individual_correlation({:for => district})
+        # binding.pry
+      end
+      statewide_correlation = all_district_correlations.count(true)/ all_district_correlations.length
+      statewide_correlation >= 0.7
+    else
+      individual_correlation(for_district)
+    end
+  end
+
+def find_all_districts_with_data
+  all_kindergarten_districts = []
+  district_repository.data_set[:enrollment][:kindergarten].contents.each do |row|
+    if row.data_value.count("a-zA-Z") < 1
+      all_kindergarten_districts << row.district
+    end
+  end
+  all_kindergarten_districts.uniq!
+  all_kindergarten_districts.shift
+
+  all_high_school_districts = []
+  district_repository.data_set[:enrollment][:high_school_graduation].contents.each do |row|
+    if row.data_value.count("a-zA-Z") < 1
+      all_high_school_districts << row.district
+    end
+  end
+  all_high_school_districts.uniq!
+  all_high_school_districts.shift
+  
+  all_kindergarten_districts & all_high_school_districts
+end
+
+  def individual_correlation(for_district)
+    correlation = kindergarten_participation_against_high_school_graduation(for_district[:for])
+    correlation >= 0.6 && correlation <= 1.5
+  end
+
 end
