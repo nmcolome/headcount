@@ -13,10 +13,22 @@ class HeadcountAnalyst
     variation(dividend, divisor)
   end
 
+  def graduation_rate_variation(district_name, comparison)
+    dividend = get_average_graduation_rate(district_name)
+    divisor = get_average_graduation_rate(comparison[:against])
+    variation(dividend, divisor)
+  end
+
   def get_average_district_participation(name)
     district = initialize_district(name)
     district_participation = get_participation(district)
     calculate_average(district_participation)
+  end
+
+  def get_average_graduation_rate(name)
+    district = initialize_district(name)
+    graduation_rate = get_graduation_rate(district)
+    calculate_average(graduation_rate)
   end
 
   def initialize_district(name)
@@ -25,6 +37,10 @@ class HeadcountAnalyst
 
   def get_participation(name)
     name.enrollment.kindergarten_participation_by_year
+  end
+
+  def get_graduation_rate(name)
+    name.enrollment.graduation_rate_by_year
   end
 
   def calculate_average(value_set)
@@ -63,5 +79,10 @@ class HeadcountAnalyst
       rate_variation_trend[key] = variation(value[0], value[1])
     end
     rate_variation_trend
+  end
+
+  def kindergarten_participation_against_high_school_graduation(district_name)
+    correlation = kindergarten_participation_rate_variation(district_name, :against => 'COLORADO') / graduation_rate_variation(district_name, :against => 'COLORADO')
+    correlation.to_s[0..4].to_f
   end
 end

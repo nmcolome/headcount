@@ -42,4 +42,18 @@ class TestHeadcountAnalyst < Minitest::Test
     expected = {2004 => 1.257, 2005 => 0.96, 2006 => 1.05, 2007 => 0.992, 2008 => 0.717, 2009 => 0.652, 2010 => 0.681, 2011 => 0.727, 2012 => 0.688, 2013 => 0.694, 2014 => 0.661 }
     assert_equal expected[2005], outcome[2005]
   end
+
+  def test_kindergarten_participation_against_high_school_graduation
+    outcome = @ha.kindergarten_participation_against_high_school_graduation('ACADEMY 20')
+
+    assert_equal 0.648, outcome
+  end
+
+  def test_graduation_rate_variation
+
+    outcome = @ha.graduation_rate_variation('ACADEMY 20', :against => 'COLORADO')
+
+    assert_equal 1.181, outcome
+  end
+
 end
