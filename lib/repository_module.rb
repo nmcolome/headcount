@@ -1,12 +1,24 @@
 module Repository
   attr_reader :data
 
-  def load_data(args)
+   def load_data(args)
     enrollment = args[:enrollment]
-    #statewide_testing = args[:statewide_testing]
-    #economic_profile = args[:economic_profile]
-    kindergarten = enrollment[:kindergarten]
-    @data_set = DataTable.new(kindergarten)
+    statewide_testing = args[:statewide_testing]
+    economic_profile = args[:economic_profile]
+
+    get_data(args)
+  end
+
+  def get_data(arguments)
+    @data_set = {}
+    arguments.each do |key, value|
+      if !value.nil?
+        @data_set[key] = value.each do |v_key, v_value|
+          value[v_key] = DataTable.new(v_value)
+        end
+      end
+    end
+    @data_set
   end
 
   def find_by_name(district_name)
@@ -16,7 +28,27 @@ module Repository
   end
 
   def is_district_in_data?(district_name)
-    @data_set.district.any? do |name|
+    result = dig_through_data_set_for_district(district_name)
+    if result.include?(true)
+      true
+    else
+      false
+    end
+  end
+
+  def dig_through_data_set_for_district(district_name)
+    district_in_data = []
+    @data_set.values.each do |value|
+      value.each do |v_key, v_value|
+        result = check_values_for_any_match(v_value, district_name)
+        district_in_data << result
+      end
+    end
+    district_in_data
+  end
+
+  def check_values_for_any_match(v_value, district_name)
+    v_value.district.any? do |name|
       name.upcase == district_name.upcase
     end
   end
@@ -29,17 +61,28 @@ module Repository
   end
 
   def collect_matches(district_name)
-    @data_set.district.find_all do |name|
+    district_in_data = []
+    @data_set.values.each do |value|
+      value.each do |v_key, v_value|
+        result = check_values_for_all_matches(v_value, district_name)
+        district_in_data << result
+      end
+    end
+    district_in_data
+  end
+
+  def check_values_for_all_matches(v_value, district_name)
+    v_value.district.find_all do |name|
       name.upcase.include?(district_name.upcase)
     end
   end
 
   def unique_locations(matches)
-    matches.uniq.compact
+    matches.flatten.uniq.compact
   end
 
   def district_participation
-    @data_set.district_participation
+    @data_set[:enrollment][:kindergarten].district_participation
   end
 
 end

@@ -9,9 +9,14 @@ class TestHeadcountAnalyst < Minitest::Test
 
     @data = @dr.load_data({
       :enrollment => {
-        :kindergarten => "./data/Kindergartners in full-day program.csv"
-      }
-    })
+        :kindergarten => "./data/Kindergartners in full-day program.csv",
+        :high_school_graduation => "./test/fixtures/small_hs_grad.csv"
+      },
+      :economic_profile => {
+        :median_household_income => "./test/fixtures/small_median_house_income.csv",
+        :children_in_poverty => "./test/fixtures/small_child_poverty.csv",
+        :title_i => "./test/fixtures/small_title_1.csv"
+      }})
 
     @ha = HeadcountAnalyst.new(@dr)
   end
