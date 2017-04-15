@@ -22,6 +22,21 @@ class TestEnrollment < Minitest::Test
     assert_equal Hash, participation_by_year.class
   end
 
+  def test_graduation_rate_by_year
+    er = EnrollmentRepository.new
+    
+    er.load_data({
+           :enrollment => {
+              :kindergarten => "./data/Kindergartners in full-day program.csv",
+              :high_school_graduation => "./data/High school graduation rates.csv"
+            }
+          })
+    enrollment = er.find_by_name("ACADEMY 20")
+
+    graduation_rate_by_year = enrollment.graduation_rate_by_year
+    assert_equal Hash, graduation_rate_by_year.class
+  end
+  
   def test_kindergarten_participation_in_year_can_return_participation
     participation_in_year = @e.kindergarten_participation_in_year(2010)
     assert_equal 0.391, participation_in_year
@@ -55,5 +70,37 @@ class TestEnrollment < Minitest::Test
     assert enrollment.is_a?(Enrollment)
     assert_in_delta 0.144, enrollment.kindergarten_participation_in_year(2004), 0.005
   end
-  
+
+  def test_graduation_rate_by_year_values
+    er = EnrollmentRepository.new
+    
+    er.load_data({
+           :enrollment => {
+              :kindergarten => "./data/Kindergartners in full-day program.csv",
+              :high_school_graduation => "./data/High school graduation rates.csv"
+            }
+          })
+    enrollment = er.find_by_name("ACADEMY 20")
+
+    graduation_rate_by_year = enrollment.graduation_rate_by_year
+
+    result = {2010=>0.895, 2011=>0.895, 2012=>0.889, 2013=>0.913, 2014=>0.898}
+    assert_equal result, graduation_rate_by_year
+  end
+
+  def test_graduation_rate_in_year
+    er = EnrollmentRepository.new
+    
+    er.load_data({
+           :enrollment => {
+              :kindergarten => "./data/Kindergartners in full-day program.csv",
+              :high_school_graduation => "./data/High school graduation rates.csv"
+            }
+          })
+    enrollment = er.find_by_name("ACADEMY 20")
+
+    graduation_rate_in_year = enrollment.graduation_rate_in_year(2010)
+
+    assert_equal 0.895, graduation_rate_in_year
+  end
 end
