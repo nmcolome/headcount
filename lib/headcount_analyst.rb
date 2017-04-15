@@ -10,7 +10,6 @@ class HeadcountAnalyst
   def kindergarten_participation_rate_variation(district_name, comparison)
     dividend = get_average_district_participation(district_name)
     divisor = get_average_district_participation(comparison[:against])
-    #binding.pry
     variation(dividend, divisor)
   end
 

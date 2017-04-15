@@ -18,12 +18,12 @@ class TestDataTable < Minitest::Test
     assert_equal "Colorado", output.first.district
   end
 
-  def test_participation
-    d = DataTable.new("./data/Kindergartners in full-day program.csv")
-    output = d.district_participation
+  # def test_participation
+  #   d = DataTable.new("./data/Kindergartners in full-day program.csv")
+  #   output = d.district_participation
 
-    assert_equal 181, output.count
-    assert_equal Array, output.class
-    assert_equal Hash, output.first[1].class
-  end
+  #   assert_equal 181, output.count
+  #   assert_equal Array, output.class
+  #   assert_equal Hash, output.first[1].class
+  # end
 end

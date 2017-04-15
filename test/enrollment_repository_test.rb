@@ -14,11 +14,16 @@ class TestEnrollmentRepository < Minitest::Test
 
     data = er.load_data({
       :enrollment => {
-        :kindergarten => "./data/Kindergartners in full-day program.csv"
-      }
-    })
+        :kindergarten => "./test/fixtures/small_kinder.csv",
+        :high_school_graduation => "./test/fixtures/small_hs_grad.csv"
+      },
+      :economic_profile => {
+        :median_household_income => "./test/fixtures/small_median_house_income.csv",
+        :children_in_poverty => "./test/fixtures/small_child_poverty.csv",
+        :title_i => "./test/fixtures/small_title_1.csv"
+      }})
 
-    assert_equal DataTable, data.class
+    assert_equal Hash, data.class
   end
 
   def test_find_by_name_can_return_nil
@@ -26,10 +31,15 @@ class TestEnrollmentRepository < Minitest::Test
 
     data = er.load_data({
       :enrollment => {
-        :kindergarten => "./data/Kindergartners in full-day program.csv"
-      }
-    })
-    
+        :kindergarten => "./test/fixtures/small_kinder.csv",
+        :high_school_graduation => "./test/fixtures/small_hs_grad.csv"
+      },
+      :economic_profile => {
+        :median_household_income => "./test/fixtures/small_median_house_income.csv",
+        :children_in_poverty => "./test/fixtures/small_child_poverty.csv",
+        :title_i => "./test/fixtures/small_title_1.csv"
+      }})
+
     enrollment = er.find_by_name("UNLIKELY NAME")
     
     assert_nil enrollment
@@ -40,9 +50,14 @@ class TestEnrollmentRepository < Minitest::Test
 
     data = er.load_data({
       :enrollment => {
-        :kindergarten => "./data/Kindergartners in full-day program.csv"
-      }
-    })
+        :kindergarten => "./test/fixtures/small_kinder.csv",
+        :high_school_graduation => "./test/fixtures/small_hs_grad.csv"
+      },
+      :economic_profile => {
+        :median_household_income => "./test/fixtures/small_median_house_income.csv",
+        :children_in_poverty => "./test/fixtures/small_child_poverty.csv",
+        :title_i => "./test/fixtures/small_title_1.csv"
+      }})
 
     enrollment = er.find_by_name("ACADEMY 20")
     
@@ -54,9 +69,14 @@ class TestEnrollmentRepository < Minitest::Test
 
     data = er.load_data({
       :enrollment => {
-        :kindergarten => "./data/Kindergartners in full-day program.csv"
-      }
-    })
+        :kindergarten => "./test/fixtures/small_kinder.csv",
+        :high_school_graduation => "./test/fixtures/small_hs_grad.csv"
+      },
+      :economic_profile => {
+        :median_household_income => "./test/fixtures/small_median_house_income.csv",
+        :children_in_poverty => "./test/fixtures/small_child_poverty.csv",
+        :title_i => "./test/fixtures/small_title_1.csv"
+      }})
 
     enrollment = er.find_by_name("academy 20")
     
@@ -68,9 +88,14 @@ class TestEnrollmentRepository < Minitest::Test
 
     data = er.load_data({
       :enrollment => {
-        :kindergarten => "./data/Kindergartners in full-day program.csv"
-      }
-    })
+        :kindergarten => "./test/fixtures/small_kinder.csv",
+        :high_school_graduation => "./test/fixtures/small_hs_grad.csv"
+      },
+      :economic_profile => {
+        :median_household_income => "./test/fixtures/small_median_house_income.csv",
+        :children_in_poverty => "./test/fixtures/small_child_poverty.csv",
+        :title_i => "./test/fixtures/small_title_1.csv"
+      }})
 
     enrollments = er.find_all_matching("XXXXXRTY")
 
@@ -82,9 +107,14 @@ class TestEnrollmentRepository < Minitest::Test
 
     data = er.load_data({
       :enrollment => {
-        :kindergarten => "./data/Kindergartners in full-day program.csv"
-      }
-    })
+        :kindergarten => "./test/fixtures/small_kinder.csv",
+        :high_school_graduation => "./test/fixtures/small_hs_grad.csv"
+      },
+      :economic_profile => {
+        :median_household_income => "./test/fixtures/small_median_house_income.csv",
+        :children_in_poverty => "./test/fixtures/small_child_poverty.csv",
+        :title_i => "./test/fixtures/small_title_1.csv"
+      }})
 
     enrollments = er.find_all_matching("academy")
     
@@ -92,4 +122,5 @@ class TestEnrollmentRepository < Minitest::Test
     assert_equal 1, enrollments.count
     assert_equal Enrollment, enrollments.first.class
   end
+
 end
