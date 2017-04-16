@@ -13,6 +13,12 @@ class HeadcountAnalyst
     variation(dividend, divisor)    
   end
 
+  def graduation_rate_variation(district_name, comparison)
+    dividend = get_average_graduation_rate(district_name)
+    divisor = get_average_graduation_rate(comparison[:against])
+    variation(dividend, divisor)
+  end
+
   def kindergarten_participation_rate_variation_trend(district_name, comparison)
    district_set = get_district_participation_trend(district_name)
    comparison_set = get_district_participation_trend(comparison[:against])
@@ -28,6 +34,12 @@ class HeadcountAnalyst
     district = district_repository.find_by_name(name)
     participation = district.enrollment.kindergarten_participation.values
     calculate_average(participation)
+  end
+
+  def get_average_graduation_rate(name)
+    district = district_repository.find_by_name(name)
+    graduation = district.enrollment.graduation_rate.values
+    calculate_average(graduation)
   end
 
   def calculate_variation_trend(combined_data_set)
@@ -46,6 +58,14 @@ class HeadcountAnalyst
      end
    end
    merged_data_set
+  end
+
+  def kindergarten_participation_against_high_school_graduation(district_name)
+    participation_variation = kindergarten_participation_rate_variation(district_name, :against => 'COLORADO')
+    graduation_variation = graduation_rate_variation(district_name, :against => 'COLORADO')
+
+    correlation = participation_variation / graduation_variation
+    correlation.to_s[0..4].to_f
   end
 
   private

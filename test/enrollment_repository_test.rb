@@ -60,6 +60,7 @@ class TestEnrollmentRepository < Minitest::Test
 
     assert_equal Enrollment, enrollment.class
     assert_equal "0.30201", enrollment.kindergarten_participation[2004]
+    assert_equal "0.88983", enrollment.graduation_rate[2012]
   end
 
   def test_find_by_name_can_return_enrollment_instance_with_lowercase_argument

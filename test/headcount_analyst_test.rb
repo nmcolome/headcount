@@ -43,4 +43,31 @@ class TestHeadcountAnalyst < Minitest::Test
     
     assert_equal expected[2007], outcome[2007]
   end
+
+  def test_kindergarten_participation_against_high_school_graduation
+   outcome = @ha.kindergarten_participation_against_high_school_graduation('ACADEMY 20')
+
+   assert_equal 0.648, outcome
+ end
+
+  def test_graduation_rate_variation
+    skip
+    outcome = @ha.graduation_rate_variation('ACADEMY 20', :against => 'COLORADO')
+
+    assert_equal 1.181, outcome
+  end
+
+  def test_kindergarten_participation_correlates_with_high_school_graduation
+    skip
+    outcome = @ha.kindergarten_participation_correlates_with_high_school_graduation(for: 'ACADEMY 20')
+
+    assert outcome
+  end
+
+  def test_kindergarten_participation_correlates_with_high_school_graduation_statewide
+    skip
+    outcome = @ha.kindergarten_participation_correlates_with_high_school_graduation(:for => 'STATEWIDE')
+
+    assert_equal "cat", outcome
+  end
 end
