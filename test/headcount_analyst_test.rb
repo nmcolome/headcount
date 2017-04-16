@@ -8,7 +8,7 @@ class TestHeadcountAnalyst < Minitest::Test
     @data = @dr.load_data({
       :enrollment => {
         :kindergarten => "./data/Kindergartners in full-day program.csv",
-        :high_school_graduation => "./test/fixtures/small_hs_grad.csv"
+        :high_school_graduation => "./data/High school graduation rates.csv"
       },
       :economic_profile => {
         :median_household_income => "./test/fixtures/small_median_house_income.csv",
@@ -44,30 +44,37 @@ class TestHeadcountAnalyst < Minitest::Test
     assert_equal expected[2007], outcome[2007]
   end
 
+  def test_graduation_rate_variation
+    outcome = @ha.graduation_rate_variation('ACADEMY 20', :against => 'COLORADO')
+
+    assert_equal 1.195, outcome
+  end
+
   def test_kindergarten_participation_against_high_school_graduation
    outcome = @ha.kindergarten_participation_against_high_school_graduation('ACADEMY 20')
 
-   assert_equal 0.648, outcome
- end
-
-  def test_graduation_rate_variation
-    skip
-    outcome = @ha.graduation_rate_variation('ACADEMY 20', :against => 'COLORADO')
-
-    assert_equal 1.181, outcome
+   assert_equal 0.641, outcome
   end
 
   def test_kindergarten_participation_correlates_with_high_school_graduation
-    skip
     outcome = @ha.kindergarten_participation_correlates_with_high_school_graduation(for: 'ACADEMY 20')
 
     assert outcome
   end
 
   def test_kindergarten_participation_correlates_with_high_school_graduation_statewide
-    skip
     outcome = @ha.kindergarten_participation_correlates_with_high_school_graduation(:for => 'STATEWIDE')
 
-    assert_equal "cat", outcome
+    refute outcome
+  end
+
+  def test_kindergarten_participation_correlates_with_high_school_graduation_across_a_subset_of_districts
+    outcome = @ha.kindergarten_participation_correlates_with_high_school_graduation(:across => ['ACADEMY 20', 'STEAMBOAT SPRINGS RE-2', 'PARK (ESTES PARK) R-3'])
+
+    assert outcome
+
+    outcome_2 = @ha.kindergarten_participation_correlates_with_high_school_graduation(:across => ['ACADEMY 20', 'MONTROSE COUNTY RE-1J', 'PARK (ESTES PARK) R-3'])
+
+    refute outcome_2
   end
 end

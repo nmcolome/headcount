@@ -68,6 +68,33 @@ class HeadcountAnalyst
     correlation.to_s[0..4].to_f
   end
 
+  def kindergarten_participation_correlates_with_high_school_graduation(args)
+    for_district = args[:for]
+    across_districts = args[:across]
+    all_district_correlations = []
+    if for_district == 'STATEWIDE'
+      # all_district_correlations = []
+      district_repository.districts.each do |district_name, district_data|
+        all_district_correlations << individual_correlation(district_name)
+      end
+      statewide_correlation = all_district_correlations.count(true)/ all_district_correlations.length
+      statewide_correlation >= 0.7
+    elsif !for_district.nil?
+      individual_correlation(for_district)
+    elsif !across_districts.nil?
+      across_districts.each do |district_name|
+        all_district_correlations << individual_correlation(district_name)
+      end
+      statewide_correlation = all_district_correlations.count(true)/ all_district_correlations.length
+      statewide_correlation >= 0.7
+    end
+  end
+
+  def individual_correlation(for_district)
+    correlation = kindergarten_participation_against_high_school_graduation(for_district)
+    correlation >= 0.6 && correlation <= 1.5
+  end
+
   private
 
   def calculate_average(values)
