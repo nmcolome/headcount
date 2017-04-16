@@ -29,9 +29,8 @@ class TestDistrictRepository < Minitest::Test
         :kindergarten => "./data/Kindergartners in full-day program.csv"
       }
     })
-
     assert_equal Hash, dr.districts.class
-    assert_equal District, dr.districts["Colorado"].class
+    assert_equal District, dr.districts["COLORADO"].class
   end
 
   def test_find_by_name_can_return_nil
@@ -104,20 +103,6 @@ def test_find_all_matching_can_return_empty_array
     })
 
     assert_instance_of EnrollmentRepository, dr.enrollment_repository
-  end
-
-  def test_district_has_access_to_enrollment_repository
-    dr = DistrictRepository.new
-
-    data = dr.load_data({
-      :enrollment => {
-        :kindergarten => "./data/Kindergartners in full-day program.csv"
-      }
-    })
-
-    district = dr.find_by_name("ACADEMY 20")
-    
-    assert_equal EnrollmentRepository, district.enrollment_repository.class
   end
 
   def test_district_can_create_new_enrollment_object

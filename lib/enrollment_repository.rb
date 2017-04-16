@@ -20,8 +20,8 @@ class EnrollmentRepository
     @enrollments = {}
     unique_districts(data_set).each do |district_name|
       district_participation = get_participation(data_set, district_name)
-      @enrollments[district_name] = Enrollment.new({
-                                                    :name => district_name,
+      @enrollments[district_name.upcase] = Enrollment.new({
+                                                    :name => district_name.upcase,
                                                     :kindergarten_participation => district_participation
                                                   })
     end

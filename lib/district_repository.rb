@@ -14,9 +14,9 @@ class DistrictRepository
   def initialize_instances(data_set)
     @districts = {}
     unique_districts(data_set).each do |district_name|
-      @districts[district_name] = District.new({
-                                                :name => district_name,
-                                                :enrollment_repository => enrollment_repository
+      @districts[district_name.upcase] = District.new({
+                                                :name => district_name.upcase,
+                                                :enrollment => (enrollment_repository.find_by_name(district_name))
                                               })
     end
   end
