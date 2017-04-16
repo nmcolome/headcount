@@ -19,8 +19,8 @@ class EnrollmentRepository
   def initialize_instances(data_set)
     @enrollments = {}
     unique_districts(data_set).each do |district_name|
-      district_participation = get_participation(data_set, district_name)
-      district_graduation_rate = get_graduation_rate(data_set, district_name)
+      district_participation = get_participation(data_set, district_name) unless data_set[:enrollment][:kindergarten].nil?
+      district_graduation_rate = get_graduation_rate(data_set, district_name) unless data_set[:enrollment][:high_school_graduation].nil?
       @enrollments[district_name.upcase] = Enrollment.new({
                                                     :name => district_name.upcase,
                                                     :kindergarten_participation => district_participation,
@@ -54,7 +54,7 @@ class EnrollmentRepository
     participation
   end
 
-  def get_graduation_rate(data_set, district_name) 
+  def get_graduation_rate(data_set, district_name)
     data_set[:enrollment][:high_school_graduation].rewind
     graduation_rate = {}
     data_set[:enrollment][:high_school_graduation].each do |row|
