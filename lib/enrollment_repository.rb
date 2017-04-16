@@ -1,3 +1,4 @@
+require 'csv'
 require_relative 'repository_module'
 require_relative 'enrollment'
 
@@ -8,7 +9,11 @@ class EnrollmentRepository
   def initialize_instances(data_set)
     @enrollments = {}
     unique_districts(data_set).each do |district_name|
-      @enrollments[district_name] = Enrollment.new({:name => district_name})
+      district_participation = get_participation(data_set, district_name)
+      @enrollments[district_name] = Enrollment.new({
+                                                    :name => district_name,
+                                                    :kindergarten_participation => district_participation
+                                                  })
     end
   end
 
@@ -25,4 +30,36 @@ class EnrollmentRepository
     end
     matches
   end
+
+  def get_participation(data_set, district_name) 
+    data_set[:enrollment][:kindergarten].rewind
+    participation = {}
+    data_set[:enrollment][:kindergarten].each do |row|
+      if district_name.upcase == row[:location].upcase
+        participation[(row[:timeframe])] = row[:data]
+      end
+    end
+    participation
+  end
+
+    # if !data_set[:enrollment][:kindergarten].nil? 
+      # data_set[:enrollment][:kindergarten].each do |row|
+      # binding.pry    
+        
+      #   if district_name.upcase == row[:location].upcase
+      #     participation[(row[:timeframe])] = row[:data]
+      #   end
+      # end
+    # end
+    
+
+
+  # if data_set[:enrollment][:kindergarten].nil?
+#   def get_kindergarten_participation(district_name)
+#    
+#    kinder_participation = district_participation(:enrollment, :kindergarten).select do |district|
+#      district.first.upcase == district_name.upcase
+#    end
+#    kinder_participation.flatten.last
+#  end
 end
