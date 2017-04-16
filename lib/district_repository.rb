@@ -1,43 +1,37 @@
-require 'csv'
-require_relative 'district'
+#require 'csv'
 require_relative 'repository_module'
-require_relative 'data_table'
-require_relative 'enrollment_repository'
+require_relative 'district'
 
 class DistrictRepository
   include Repository
+  attr_reader :districts
 
-  attr_reader :enrollment_repository, :data_set
-
-  def initialize
-    @enrollment_repository = EnrollmentRepository.new
+  def initialize_instances(data_set)
+    @districts = {}
+    unique_districts(data_set).each do |district_name|
+      @districts[district_name] = District.new({:name => district_name})
+    end
   end
 
-  def new_instance(district_name)
-    District.new({:name => district_name,
-                  :enrollment_repository => enrollment_repository,
-                  :data_set => @data_set
-                })
+  # def unique_districts(data_set)
+  #   district_names = []
+  #   data_set[:enrollment][:kindergarten].each do |row|
+  #     district_names << row[:location]
+  #   end
+  #   district_names.uniq!
+  # end
+
+  def find_by_name(district_name)
+    districts[district_name.upcase]
   end
 
-  def load_data(args)
-    enrollment = args[:enrollment]
-    statewide_testing = args[:statewide_testing]
-    economic_profile = args[:economic_profile]
-
-    get_data(args)
-  end
-
-  def get_data(arguments)
-    @data_set = {}
-    arguments.each do |key, value|
-      if !value.nil?
-        @data_set[key] = value.each do |v_key, v_value|
-          value[v_key] = DataTable.new(v_value)
-        end
+  def find_all_matching(district_name)
+    matches = []
+    districts.each do |key, value|
+      if key.upcase.include?(district_name.upcase)
+        matches << value
       end
     end
-    @data_set
+    matches
   end
-
 end
