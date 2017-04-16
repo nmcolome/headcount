@@ -6,6 +6,7 @@ module Repository
     statewide_testing = args[:statewide_testing]
     economic_profile = args[:economic_profile]
     data_set = get_data(args)
+    enrollment_repository.initialize_instances(data_set)
     initialize_instances(data_set)
     data_set
   end
@@ -27,10 +28,18 @@ module Repository
   end
 
   def unique_districts(data_set)
-    data_set[:enrollment][:kindergarten].rewind
     district_names = []
-    data_set[:enrollment][:kindergarten].each do |row|
-      district_names << row[:location]
+    unless data_set[:enrollment][:kindergarten].nil?
+      data_set[:enrollment][:kindergarten].rewind
+      data_set[:enrollment][:kindergarten].each do |row|
+        district_names << row[:location]
+      end
+    end
+    unless data_set[:enrollment][:high_school_graduation].nil?
+      data_set[:enrollment][:high_school_graduation].rewind
+      data_set[:enrollment][:high_school_graduation].each do |row|
+        district_names << row[:location]
+      end
     end
     district_names.uniq!
   end

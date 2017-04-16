@@ -1,15 +1,23 @@
 #require 'csv'
 require_relative 'repository_module'
 require_relative 'district'
+require_relative 'enrollment_repository'
 
 class DistrictRepository
   include Repository
-  attr_reader :districts
+  attr_reader :districts, :enrollment_repository
+
+  def initialize
+    @enrollment_repository = EnrollmentRepository.new
+  end
 
   def initialize_instances(data_set)
     @districts = {}
     unique_districts(data_set).each do |district_name|
-      @districts[district_name] = District.new({:name => district_name})
+      @districts[district_name] = District.new({
+                                                :name => district_name,
+                                                :enrollment_repository => enrollment_repository
+                                              })
     end
   end
 

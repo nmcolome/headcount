@@ -6,6 +6,16 @@ class EnrollmentRepository
   include Repository
   attr_reader :enrollments
 
+  def load_data(args)
+    enrollment = args[:enrollment]
+    statewide_testing = args[:statewide_testing]
+    economic_profile = args[:economic_profile]
+    data_set = get_data(args)
+    # enrollment_repository.initialize_instances(data_set)
+    initialize_instances(data_set)
+    data_set
+  end
+
   def initialize_instances(data_set)
     @enrollments = {}
     unique_districts(data_set).each do |district_name|
