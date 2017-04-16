@@ -27,6 +27,7 @@ module Repository
   end
 
   def unique_districts(data_set)
+    data_set[:enrollment][:kindergarten].rewind
     district_names = []
     data_set[:enrollment][:kindergarten].each do |row|
       district_names << row[:location]

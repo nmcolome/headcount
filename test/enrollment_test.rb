@@ -43,7 +43,6 @@ class TestEnrollment < Minitest::Test
   end
 
   def test_kindergarten_participation_in_year_in_delta
-    skip
     er = EnrollmentRepository.new
     er.load_data({
                   :enrollment => {
@@ -55,9 +54,8 @@ class TestEnrollment < Minitest::Test
     name = "GUNNISON WATERSHED RE1J"
     enrollment = er.find_by_name(name)
     assert_equal name, enrollment.name
-    assert_equal "cat", enrollment
-    # assert enrollment.is_a?(Enrollment)
-    # assert_in_delta 0.144, enrollment.kindergarten_participation_in_year(2004), 0.005
+    assert enrollment.is_a?(Enrollment)
+    assert_in_delta 0.144, enrollment.kindergarten_participation_in_year(2004), 0.005
   end
   
 end

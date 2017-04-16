@@ -36,30 +36,9 @@ class EnrollmentRepository
     participation = {}
     data_set[:enrollment][:kindergarten].each do |row|
       if district_name.upcase == row[:location].upcase
-        participation[(row[:timeframe])] = row[:data]
+        participation[(row[:timeframe]).to_i] = row[:data]
       end
     end
     participation
   end
-
-    # if !data_set[:enrollment][:kindergarten].nil? 
-      # data_set[:enrollment][:kindergarten].each do |row|
-      # binding.pry    
-        
-      #   if district_name.upcase == row[:location].upcase
-      #     participation[(row[:timeframe])] = row[:data]
-      #   end
-      # end
-    # end
-    
-
-
-  # if data_set[:enrollment][:kindergarten].nil?
-#   def get_kindergarten_participation(district_name)
-#    
-#    kinder_participation = district_participation(:enrollment, :kindergarten).select do |district|
-#      district.first.upcase == district_name.upcase
-#    end
-#    kinder_participation.flatten.last
-#  end
 end
