@@ -25,7 +25,6 @@ class TestStatewideTestRepository < Minitest::Test
   end
 
   def test_find_by_name
-    skip
       str = StatewideTestRepository.new
       str.load_data({
         :statewide_testing => {
