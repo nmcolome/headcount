@@ -26,4 +26,15 @@ class StatewideTestRepository
   def find_by_name(district_name)
     statewide_tests[district_name.upcase]
   end
+
+  def get_p(data_set, district_name)
+    data_set[:enrollment][:high_school_graduation].rewind
+    graduation_rate = {}
+    data_set[:enrollment][:high_school_graduation].each do |row|
+      if district_name.upcase == row[:location].upcase
+        graduation_rate[(row[:timeframe]).to_i] = row[:data]
+      end
+    end
+    graduation_rate
+  end
 end
