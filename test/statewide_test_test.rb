@@ -204,6 +204,10 @@ def setup
     expected = {:math=>0.816, :reading=>0.897, :writing=>0.826}
     
     assert_equal expected, output[2011]
+
+    assert_raises(UnknownRaceError) do
+      @sw.proficient_by_race_or_ethnicity(:latin_american)
+    end
   end
 
   def test_proficient_for_subject_by_grade_in_year
@@ -218,6 +222,19 @@ def setup
     assert_raises(UnknownDataError) { @sw.proficient_for_subject_by_grade_in_year(:math, 3, "2008") }
 
     assert_raises(UnknownDataError) { @sw.proficient_for_subject_by_grade_in_year(:science, 3, 2008) }
-    
+  end
+
+  def test_proficient_for_subject_by_race_in_year
+    output = @sw.proficient_for_subject_by_race_in_year(:math, :hispanic, 2012)
+    assert_equal 0.572, output
+
+    output_2 = @sw.proficient_for_subject_by_race_in_year(:writing, :white, 2012)
+    assert_equal 0.726, output_2
+
+    assert_raises(UnknownDataError) { @sw.proficient_for_subject_by_race_in_year(:math, :latin_american, 2008) }
+
+    assert_raises(UnknownDataError) { @sw.proficient_for_subject_by_race_in_year(:math, :asian, 1800) }
+
+    assert_raises(UnknownDataError) { @sw.proficient_for_subject_by_race_in_year(:science, :asian, 2008) }
   end
 end
