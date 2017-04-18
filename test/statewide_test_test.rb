@@ -54,11 +54,16 @@ class TestStatewideTest < Minitest::Test
 
   def test_proficient_for_subject_by_grade_in_year
     output = @sw.proficient_for_subject_by_grade_in_year(:math, 3, 2008)
-
     assert_equal 0.857, output
 
     output_2 = @sw.proficient_for_subject_by_grade_in_year(:math, 8, 2008)
-
     assert_equal 0.64, output_2
+
+    assert_raises(UnknownDataError) { @sw.proficient_for_subject_by_grade_in_year(:math, 1, 2008) }
+
+    assert_raises(UnknownDataError) { @sw.proficient_for_subject_by_grade_in_year(:math, 3, "2008") }
+
+    assert_raises(UnknownDataError) { @sw.proficient_for_subject_by_grade_in_year(:science, 3, 2008) }
+    
   end
 end

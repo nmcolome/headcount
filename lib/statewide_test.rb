@@ -57,6 +57,13 @@ class StatewideTest
   end
 
   def proficient_for_subject_by_grade_in_year(subject, grade, year)
-    proficient_by_grade(grade)[year][subject]
+    subjects = [:math, :reading, :writing]
+    grades = [3, 8]
+
+    if grades.include?(grade) && subjects.include?(subject) && year == year.to_i
+      proficient_by_grade(grade)[year][subject]
+    else
+      raise UnknownDataError
+    end
   end
 end
