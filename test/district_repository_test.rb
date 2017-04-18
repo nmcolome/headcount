@@ -252,4 +252,27 @@ class TestDistrictRepository < Minitest::Test
 
     assert_equal CSV, l_data[:enrollment][:high_school_graduation].class
   end
+
+  def test_district_can_access_proficient_for_subject_by_grade_in_year
+    dr = DistrictRepository.new
+    data = dr.load_data({
+      :enrollment => {
+        :kindergarten => "./test/fixtures/academy_third.csv",
+        :high_school_graduation => "./test/fixtures/hs_5lines.csv",
+      },
+      :statewide_testing => {
+        :third_grade => "./test/fixtures/third_5lines.csv",
+        :eighth_grade => "./test/fixtures/eighth_5lines.csv",
+        :math => "./test/fixtures/math_5lines.csv",
+        :reading => "./test/fixtures/reading_5lines.csv",
+        :writing => "./test/fixtures/writing_5lines.csv"
+      }
+    })
+
+    district = dr.find_by_name("ACADEMY 20")
+
+    output = district.statewide_test.proficient_for_subject_by_grade_in_year(:math, 3, 2008)
+    assert_equal 0.857, output
+  end
+
 end

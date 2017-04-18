@@ -4,118 +4,60 @@ require './lib/enrollment_repository'
 
 class TestEnrollmentRepository < Minitest::Test
 
+  def setup
+    @er = EnrollmentRepository.new
+    @data = @er.load_data({
+      :enrollment => {
+        :kindergarten => "./test/fixtures/k_5lines.csv",
+        :high_school_graduation => "./test/fixtures/hs_5lines.csv",
+      },
+      :statewide_testing => {
+        :third_grade => "./test/fixtures/third_5lines.csv",
+        :eighth_grade => "./test/fixtures/eighth_5lines.csv",
+        :math => "./test/fixtures/math_5lines.csv",
+        :reading => "./test/fixtures/reading_5lines.csv",
+        :writing => "./test/fixtures/writing_5lines.csv"
+      }
+    })
+
+    @enrollment = @er.find_by_name("ACADEMY 20")
+  end
+
   def test_if_it_exists
-    er = EnrollmentRepository.new
-    assert_instance_of EnrollmentRepository, er
+    assert_instance_of EnrollmentRepository, @er
   end
 
   def test_it_loads_data
-    er = EnrollmentRepository.new
-
-    data = er.load_data({
-      :enrollment => {
-        :kindergarten => "./data/Kindergartners in full-day program.csv",
-        :high_school_graduation => "./test/fixtures/small_hs_grad.csv"
-      },
-      :economic_profile => {
-        :median_household_income => "./test/fixtures/small_median_house_income.csv",
-        :children_in_poverty => "./test/fixtures/small_child_poverty.csv",
-        :title_i => "./test/fixtures/small_title_1.csv"
-      }})
-
-    assert_equal Hash, data.class
+    assert_equal Hash, @data.class
   end
 
   def test_find_by_name_can_return_nil
-    er = EnrollmentRepository.new
-    data = er.load_data({
-      :enrollment => {
-        :kindergarten => "./data/Kindergartners in full-day program.csv",
-        :high_school_graduation => "./test/fixtures/small_hs_grad.csv"
-      },
-      :economic_profile => {
-        :median_household_income => "./test/fixtures/small_median_house_income.csv",
-        :children_in_poverty => "./test/fixtures/small_child_poverty.csv",
-        :title_i => "./test/fixtures/small_title_1.csv"
-      }})
-    enrollment = er.find_by_name("UNLIKELY NAME")
-    
+    enrollment = @er.find_by_name("UNLIKELY NAME")
+
     assert_nil enrollment
   end
 
   def test_find_by_name_can_return_enrollment_instance
-    er = EnrollmentRepository.new
-    data = er.load_data({
-      :enrollment => {
-        :kindergarten => "./data/Kindergartners in full-day program.csv",
-        :high_school_graduation => "./test/fixtures/small_hs_grad.csv"
-      },
-      :economic_profile => {
-        :median_household_income => "./test/fixtures/small_median_house_income.csv",
-        :children_in_poverty => "./test/fixtures/small_child_poverty.csv",
-        :title_i => "./test/fixtures/small_title_1.csv"
-      }})
-
-    enrollment = er.find_by_name("ACADEMY 20")
-
-    assert_equal Enrollment, enrollment.class
-    assert_equal "0.30201", enrollment.kindergarten_participation[2004]
-    assert_equal "0.88983", enrollment.graduation_rate[2012]
+    assert_equal Enrollment, @enrollment.class
+    assert_equal "0.39159", @enrollment.kindergarten_participation[2007]
+    assert_equal "0.895", @enrollment.graduation_rate[2010]
   end
 
   def test_find_by_name_can_return_enrollment_instance_with_lowercase_argument
-    er = EnrollmentRepository.new
-    data = er.load_data({
-      :enrollment => {
-        :kindergarten => "./data/Kindergartners in full-day program.csv",
-        :high_school_graduation => "./test/fixtures/small_hs_grad.csv"
-      },
-      :economic_profile => {
-        :median_household_income => "./test/fixtures/small_median_house_income.csv",
-        :children_in_poverty => "./test/fixtures/small_child_poverty.csv",
-        :title_i => "./test/fixtures/small_title_1.csv"
-      }})
-
-    enrollment = er.find_by_name("academy 20")
-
+    enrollment = @er.find_by_name("academy 20")
     assert_equal Enrollment, enrollment.class
   end
 
   def test_find_all_matching_can_return_empty_array
-    er = EnrollmentRepository.new
-    data = er.load_data({
-      :enrollment => {
-        :kindergarten => "./data/Kindergartners in full-day program.csv",
-        :high_school_graduation => "./test/fixtures/small_hs_grad.csv"
-      },
-      :economic_profile => {
-        :median_household_income => "./test/fixtures/small_median_house_income.csv",
-        :children_in_poverty => "./test/fixtures/small_child_poverty.csv",
-        :title_i => "./test/fixtures/small_title_1.csv"
-      }})
-
-    enrollments = er.find_all_matching("XXXXXRTY")
-
+    enrollments = @er.find_all_matching("XXXXXRTY")
     assert_equal [], enrollments
   end
 
   def test_find_all_matching_can_return_array_of_matches
-    er = EnrollmentRepository.new
-    data = er.load_data({
-      :enrollment => {
-        :kindergarten => "./data/Kindergartners in full-day program.csv",
-        :high_school_graduation => "./test/fixtures/small_hs_grad.csv"
-      },
-      :economic_profile => {
-        :median_household_income => "./test/fixtures/small_median_house_income.csv",
-        :children_in_poverty => "./test/fixtures/small_child_poverty.csv",
-        :title_i => "./test/fixtures/small_title_1.csv"
-      }})
-
-    enrollments = er.find_all_matching("WE")
+    enrollments = @er.find_all_matching("CO")
     
     assert_equal Array, enrollments.class
-    assert_equal 7, enrollments.count
+    assert_equal 2, enrollments.count
     assert_equal Enrollment, enrollments.first.class
   end
 end
