@@ -75,4 +75,34 @@ class TestEconomicProfileRepository < Minitest::Test
               }
     assert_equal expected, mhi
   end
+
+  def test_get_children_in_poverty
+    epr = EconomicProfileRepository.new
+    data_set = epr.load_data({
+                          :economic_profile => 
+                                              {
+                                              :median_household_income => "./data/Median household income.csv",
+                                              :children_in_poverty => "./data/School-aged children in poverty.csv",
+                                              :free_or_reduced_price_lunch => "./data/Students qualifying for free or reduced price lunch.csv",
+                                              :title_i => "./data/Title I students.csv"
+                                              }
+                          })
+    district_name = "ACADEMY 20"
+    cip = epr.get_children_in_poverty(data_set, district_name)
+    expected = {
+                1995 => 0.032,
+                1997 => 0.035, 
+                1999 => 0.032, 
+                2000 => 0.031, 
+                2001 => 0.029,
+                2002 => 0.033, 
+                2003 => 0.037, 
+                2004 => 0.034,
+                2005 => 0.042,
+                2006 => 0.036, 
+                2007 => 0.039, 
+                2008 => 0.04404
+              }
+    assert_equal expected, cip
+  end
 end
