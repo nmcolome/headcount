@@ -1,6 +1,7 @@
 {
   "Unit Tests": {
     "coverage": {
+
       "/Users/Natalia/turing/1module/headcount/lib/economic_profile.rb": [
         1,
         1,
@@ -16,6 +17,7 @@
       ]
     },
     "timestamp": 1492564632
+
   },
   "MiniTest": {
     "coverage": {
