@@ -8,6 +8,7 @@ module Repository
     data_set = get_data(args)
     enrollment_repository.initialize_instances(data_set)
     statewide_test_repository.initialize_instances(data_set)
+    economic_profile_repository.initialize_instances(data_set)
     initialize_instances(data_set)
     data_set
   end
