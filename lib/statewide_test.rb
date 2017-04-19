@@ -46,7 +46,14 @@ class StatewideTest
 
   def turn_data_to_f(value)
     value.each do |score, data|
-      value[score] = data.to_s[0..4].to_f
+      is_digit = data.to_s.split(//).all? do |char| 
+        ("0".."9").to_a.include?(char) || char == "."
+        end
+      if is_digit
+        value[score] = data.to_s[0..4].to_f
+      else
+        value[score] = data.to_s
+      end
     end
   end
 
@@ -75,7 +82,7 @@ class StatewideTest
   end
 
   def proficient_for_subject_by_grade_in_year(subject, grade, year)
-    if grades.include?(grade) && subjects.include?(subject) && year == year.to_i
+    if grades.include?(grade) && subjects.include?(subject) && find_unique_years([third_grade_data, eighth_grade_data]).include?(year)
       proficient_by_grade(grade)[year][subject]
     else
       raise UnknownDataError

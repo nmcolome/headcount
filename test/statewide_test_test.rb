@@ -237,4 +237,20 @@ def setup
 
     assert_raises(UnknownDataError) { @sw.proficient_for_subject_by_race_in_year(:science, :asian, 2008) }
   end
+
+  def test_when_data_is_not_number
+    str = StatewideTestRepository.new
+    str.load_data({
+                    :statewide_testing => {
+                      :third_grade => "./data/3rd grade students scoring proficient or above on the CSAP_TCAP.csv",
+                      :eighth_grade => "./data/8th grade students scoring proficient or above on the CSAP_TCAP.csv",
+                      :math => "./data/Average proficiency on the CSAP_TCAP by race_ethnicity_ Math.csv",
+                      :reading => "./data/Average proficiency on the CSAP_TCAP by race_ethnicity_ Reading.csv",
+                      :writing => "./data/Average proficiency on the CSAP_TCAP by race_ethnicity_ Writing.csv"
+                    }
+                  })
+    
+    testing = str.find_by_name("PLATEAU VALLEY 50")
+    assert_equal "N/A", testing.proficient_for_subject_by_grade_in_year(:reading, 8, 2011)
+  end
 end
