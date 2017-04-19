@@ -1,0 +1,3 @@
+class EconomicProfileRepository
+
+end
