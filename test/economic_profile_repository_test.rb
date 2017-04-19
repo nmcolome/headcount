@@ -91,18 +91,40 @@ class TestEconomicProfileRepository < Minitest::Test
     cip = epr.get_children_in_poverty(data_set, district_name)
     expected = {
                 1995 => 0.032,
-                1997 => 0.035, 
-                1999 => 0.032, 
-                2000 => 0.031, 
+                1997 => 0.035,
+                1999 => 0.032,
+                2000 => 0.031,
                 2001 => 0.029,
-                2002 => 0.033, 
-                2003 => 0.037, 
+                2002 => 0.033,
+                2003 => 0.037,
                 2004 => 0.034,
                 2005 => 0.042,
-                2006 => 0.036, 
-                2007 => 0.039, 
-                2008 => 0.04404
+                2006 => 0.036,
+                2007 => 0.039,
+                2008 => 0.04404,
+                2009 => 0.047,
+                2010 => 0.05754,
+                2011 => 0.059,
+                2012 => 0.064,
+                2013=>0.048
               }
     assert_equal expected, cip
+  end
+
+    def test_get_free_or_reduced_price_lunch
+    epr = EconomicProfileRepository.new
+    data_set = epr.load_data({
+                          :economic_profile => 
+                                              {
+                                              :median_household_income => "./data/Median household income.csv",
+                                              :children_in_poverty => "./data/School-aged children in poverty.csv",
+                                              :free_or_reduced_price_lunch => "./data/Students qualifying for free or reduced price lunch.csv",
+                                              :title_i => "./data/Title I students.csv"
+                                              }
+                          })
+    district_name = "ACADEMY 20"
+    free_or_reduced_lunch = epr.get_free_or_reduced_price_lunch(data_set, district_name)
+    expected = {2014 => {:percentage => 0.12743, :total => 3132}, 2012 => {:percentage => 0.03512, :total => 842}}
+    assert_equal expected, free_or_reduced_lunch
   end
 end

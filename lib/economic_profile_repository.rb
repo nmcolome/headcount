@@ -45,4 +45,17 @@ class EconomicProfileRepository
     end
     median_household_income
   end
+
+  def get_children_in_poverty(data_set, district_name)
+    data_set[:economic_profile][:children_in_poverty].rewind
+    children_in_poverty = {}
+    data_set[:economic_profile][:children_in_poverty].each do |row|
+      if (row[:location]).upcase == district_name.upcase && row[:dataformat] == "Percent"
+        children_in_poverty[(row[:timeframe]).to_i] = row[:data].to_f
+      end
+    end
+    children_in_poverty
+  end
+
+  #Free or Reduced Lunch
 end
