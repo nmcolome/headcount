@@ -1,6 +1,6 @@
 require_relative 'test_helper'
 
-require './lib/economic_profile'
+require_relative 'economic_profile'
 
 class TestEconomicProfile < Minitest::Test
 
