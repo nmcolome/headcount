@@ -6,18 +6,20 @@ require './lib/district_repository'
 class TestDistrict < Minitest::Test
   
   def test_if_it_exists
-    dr = DistrictRepository.new
-
-    output = dr.load_data({
+dr = DistrictRepository.new
+    data = dr.load_data({
       :enrollment => {
-        :kindergarten => "./test/fixtures/small_kinder.csv",
-        :high_school_graduation => "./test/fixtures/small_hs_grad.csv"
+        :kindergarten => "./test/fixtures/k_5lines.csv",
+        :high_school_graduation => "./test/fixtures/hs_5lines.csv",
       },
-      :economic_profile => {
-        :median_household_income => "./test/fixtures/small_median_house_income.csv",
-        :children_in_poverty => "./test/fixtures/small_child_poverty.csv",
-        :title_i => "./test/fixtures/small_title_1.csv"
-      }})
+      :statewide_testing => {
+        :third_grade => "./test/fixtures/third_5lines.csv",
+        :eighth_grade => "./test/fixtures/eighth_5lines.csv",
+        :math => "./test/fixtures/math_5lines.csv",
+        :reading => "./test/fixtures/reading_5lines.csv",
+        :writing => "./test/fixtures/writing_5lines.csv"
+      }
+    })
 
     district = dr.find_by_name("ACADEMY 20")
     assert_instance_of District, district

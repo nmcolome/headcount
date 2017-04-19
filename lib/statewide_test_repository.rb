@@ -17,11 +17,11 @@ class StatewideTestRepository
   def initialize_instances(data_set)
     @statewide_tests = {}
     unique_districts(data_set).each do |district_name|
-      third_grade_data = get_testing_data_by_grade(district_name, data_set, :third_grade)
-      eighth_grade_data = get_testing_data_by_grade(district_name, data_set, :eighth_grade)
-      math_data = get_testing_data_by_ethnicity(district_name, data_set, :math)
-      reading_data = get_testing_data_by_ethnicity(district_name, data_set, :reading)
-      writing_data = get_testing_data_by_ethnicity(district_name, data_set, :writing)
+      third_grade_data = get_testing_data_by_grade(district_name, data_set, :third_grade) unless data_set[:statewide_testing].nil?
+      eighth_grade_data = get_testing_data_by_grade(district_name, data_set, :eighth_grade) unless data_set[:statewide_testing].nil?
+      math_data = get_testing_data_by_ethnicity(district_name, data_set, :math) unless data_set[:statewide_testing].nil?
+      reading_data = get_testing_data_by_ethnicity(district_name, data_set, :reading) unless data_set[:statewide_testing].nil?
+      writing_data = get_testing_data_by_ethnicity(district_name, data_set, :writing) unless data_set[:statewide_testing].nil?
       @statewide_tests[district_name.upcase] = StatewideTest.new({
                                                     :name => district_name.upcase,
                                                     :third_grade_data => third_grade_data,

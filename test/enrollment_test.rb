@@ -4,6 +4,7 @@ require './lib/enrollment'
 require './lib/enrollment_repository'
 
 class TestEnrollment < Minitest::Test
+
   def setup
     @e = Enrollment.new({
       :name => "ACADEMY 20", 
@@ -44,12 +45,19 @@ class TestEnrollment < Minitest::Test
 
   def test_kindergarten_participation_in_year_in_delta
     er = EnrollmentRepository.new
-    er.load_data({
-                  :enrollment => {
-                    :kindergarten => "./data/Kindergartners in full-day program.csv",
-                    :high_school_graduation => "./data/High school graduation rates.csv"
-                  }
-                })
+    data = er.load_data({
+      :enrollment => {
+        :kindergarten => "./data/Kindergartners in full-day program.csv",
+        :high_school_graduation => "./test/fixtures/hs_5lines.csv",
+      },
+      :statewide_testing => {
+        :third_grade => "./test/fixtures/third_5lines.csv",
+        :eighth_grade => "./test/fixtures/eighth_5lines.csv",
+        :math => "./test/fixtures/math_5lines.csv",
+        :reading => "./test/fixtures/reading_5lines.csv",
+        :writing => "./test/fixtures/writing_5lines.csv"
+      }
+    })
 
     name = "GUNNISON WATERSHED RE1J"
     enrollment = er.find_by_name(name)
@@ -60,34 +68,45 @@ class TestEnrollment < Minitest::Test
 
   def test_graduation_rate_by_year
     er = EnrollmentRepository.new
-    
-    er.load_data({
-           :enrollment => {
-              :kindergarten => "./data/Kindergartners in full-day program.csv",
-              :high_school_graduation => "./data/High school graduation rates.csv"
-            }
-          })
+    data = er.load_data({
+      :enrollment => {
+        :kindergarten => "./test/fixtures/academy_k.csv",
+        :high_school_graduation => "./test/fixtures/academy_hs.csv",
+      },
+      :statewide_testing => {
+        :third_grade => "./test/fixtures/third_5lines.csv",
+        :eighth_grade => "./test/fixtures/eighth_5lines.csv",
+        :math => "./test/fixtures/math_5lines.csv",
+        :reading => "./test/fixtures/reading_5lines.csv",
+        :writing => "./test/fixtures/writing_5lines.csv"
+      }
+    })
     enrollment = er.find_by_name("ACADEMY 20")
 
     graduation_rate_by_year = enrollment.graduation_rate_by_year
-
     result = {2010=>0.895, 2011=>0.895, 2012=>0.889, 2013=>0.913, 2014=>0.898}
     assert_equal result, graduation_rate_by_year
   end
 
   def test_graduation_rate_in_year
     er = EnrollmentRepository.new
-    
-    er.load_data({
-           :enrollment => {
-              :kindergarten => "./data/Kindergartners in full-day program.csv",
-              :high_school_graduation => "./data/High school graduation rates.csv"
-            }
-          })
+    data = er.load_data({
+      :enrollment => {
+        :kindergarten => "./test/fixtures/k_5lines.csv",
+        :high_school_graduation => "./test/fixtures/hs_5lines.csv",
+      },
+      :statewide_testing => {
+        :third_grade => "./test/fixtures/third_5lines.csv",
+        :eighth_grade => "./test/fixtures/eighth_5lines.csv",
+        :math => "./test/fixtures/math_5lines.csv",
+        :reading => "./test/fixtures/reading_5lines.csv",
+        :writing => "./test/fixtures/writing_5lines.csv"
+      }
+    })
     enrollment = er.find_by_name("ACADEMY 20")
 
     graduation_rate_in_year = enrollment.graduation_rate_in_year(2010)
-
     assert_equal 0.895, graduation_rate_in_year
   end
+
 end
