@@ -143,4 +143,27 @@ class TestEconomicProfileRepository < Minitest::Test
                 }
     assert_equal expected, free_or_reduced_lunch
   end
+
+    def test_get_title_i
+    epr = EconomicProfileRepository.new
+    data_set = epr.load_data({
+                          :economic_profile => 
+                                              {
+                                              :median_household_income => "./data/Median household income.csv",
+                                              :children_in_poverty => "./data/School-aged children in poverty.csv",
+                                              :free_or_reduced_price_lunch => "./data/Students qualifying for free or reduced price lunch.csv",
+                                              :title_i => "./data/Title I students.csv"
+                                              }
+                          })
+    district_name = "ACADEMY 20"
+    title_i = epr.get_title_i(data_set, "ACADEMY 20")
+    expected = {
+                2009=>0.014, 
+                2011=>0.011, 
+                2012=>0.01072, 
+                2013=>0.01246, 
+                2014=>0.0273
+                }
+    assert_equal expected, title_i
+  end
 end

@@ -86,7 +86,23 @@ class EconomicProfileRepository
     free_or_reduced_price_lunch
   end
 
-  # elsif row[:dataformat] == "Number"
-  #         free_or_reduced_price_lunch_percent[(row[:timeframe]).to_i][:total] = row[:data].to_i
-        
+  def get_title_i(data_set, district_name)
+    data_set[:economic_profile][:title_i].rewind
+    title_i = {}
+    data_set[:economic_profile][:title_i].each do |row|
+      if (row[:location]).upcase == district_name.upcase
+        is_digit = row[:data].to_s.split(//).all? do |char| 
+          ("0".."9").to_a.include?(char) || char == "."
+        end
+        # binding.pry
+        if is_digit
+          value = row[:data].to_f
+        else
+          value = row[:data]
+        end
+        title_i[(row[:timeframe]).to_i] = value
+      end
+    end
+    title_i
+  end
 end
