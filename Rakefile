@@ -21,7 +21,7 @@ namespace :sanitation do
   task :all => [:lines, :methods]
 end
 
-task :default => :test
-task :test do
- Dir.glob('./test/*_test.rb').each { |file| require file}
+  task :default => :test
+  task :test do
+    Dir.glob('./test/*_test.rb').each { |file| require file}
 end

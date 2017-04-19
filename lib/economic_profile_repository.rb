@@ -18,13 +18,16 @@ class EconomicProfileRepository
   def initialize_instances(data_set)
     @economic_profiles = {}
     unique_districts(data_set).each do |district_name|
-      median_household_income = get_median_household_income(data_set, district_name)
+      median_household_income = get_median_household_income(data_set, district_name) unless data_set[:economic_profile].nil?
+      children_in_poverty = get_children_in_poverty(data_set, district_name) unless data_set[:economic_profile].nil?
+      free_or_reduced_price_lunch = get_free_or_reduced_price_lunch(data_set, district_name) unless data_set[:economic_profile].nil?
+      title_i = get_title_i(data_set, district_name) unless data_set[:economic_profile].nil?
       @economic_profiles[district_name.upcase] = EconomicProfile.new({
                                                                 :median_household_income => median_household_income,
-                                                                :children_in_poverty => {2012 => 0.1845},
-                                                                :free_or_reduced_price_lunch => {2014 => {:percentage => 0.023, :total => 100}},
-                                                                :title_i => {2015 => 0.543},
-                                                                :name => "ACADEMY 20"
+                                                                :children_in_poverty => children_in_poverty,
+                                                                :free_or_reduced_price_lunch => free_or_reduced_price_lunch,
+                                                                :title_i => title_i,
+                                                                :name => district_name
                                                               })
     end
   end
