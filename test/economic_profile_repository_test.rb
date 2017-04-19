@@ -4,68 +4,40 @@ require './lib/economic_profile_repository'
 
 class TestEconomicProfileRepository < Minitest::Test
 
+  def setup
+    @epr = EconomicProfileRepository.new
+    @data_set = @epr.load_data({
+                          :economic_profile => 
+                                              {
+                                              :median_household_income => "./test/fixtures/academy_median.csv",
+                                              :children_in_poverty => "./test/fixtures/academy_children.csv",
+                                              :free_or_reduced_price_lunch => "./test/fixtures/academy_lunch.csv",
+                                              :title_i => "./test/fixtures/academy_title.csv"
+                                              }
+                          })
+  end
+
   def test_it_exists
-    epr = EconomicProfileRepository.new
-    assert_instance_of EconomicProfileRepository, epr
+    assert_instance_of EconomicProfileRepository, @epr
   end
   
   def test_it_loads_data
-    epr = EconomicProfileRepository.new
-    data = epr.load_data({
-                          :economic_profile => 
-                                              {
-                                              :median_household_income => "./data/Median household income.csv",
-                                              :children_in_poverty => "./data/School-aged children in poverty.csv",
-                                              :free_or_reduced_price_lunch => "./data/Students qualifying for free or reduced price lunch.csv",
-                                              :title_i => "./data/Title I students.csv"
-                                              }
-                          })
-    assert_instance_of Hash, data
+    assert_instance_of Hash, @data_set
   end
 
   def test_find_by_name_can_return_enrollment_instance
-    epr = EconomicProfileRepository.new
-    data = epr.load_data({
-                          :economic_profile => 
-                                              {
-                                              :median_household_income => "./data/Median household income.csv",
-                                              :children_in_poverty => "./data/School-aged children in poverty.csv",
-                                              :free_or_reduced_price_lunch => "./data/Students qualifying for free or reduced price lunch.csv",
-                                              :title_i => "./data/Title I students.csv"
-                                              }
-                          })
-    ep = epr.find_by_name("ACADEMY 20")
+    ep = @epr.find_by_name("ACADEMY 20")
     assert_instance_of EconomicProfile, ep
   end
 
   def test_find_by_name_can_return_nil
-    epr = EconomicProfileRepository.new
-    data = epr.load_data({
-                          :economic_profile => 
-                                              {
-                                              :median_household_income => "./data/Median household income.csv",
-                                              :children_in_poverty => "./data/School-aged children in poverty.csv",
-                                              :free_or_reduced_price_lunch => "./data/Students qualifying for free or reduced price lunch.csv",
-                                              :title_i => "./data/Title I students.csv"
-                                              }
-                          })
-    ep = epr.find_by_name("UNLIKELY NAME")
+    ep = @epr.find_by_name("UNLIKELY NAME")
     assert_nil ep
   end
-    
+
   def test_get_median_household_income
-    epr = EconomicProfileRepository.new
-    data_set = epr.load_data({
-                          :economic_profile => 
-                                              {
-                                              :median_household_income => "./data/Median household income.csv",
-                                              :children_in_poverty => "./data/School-aged children in poverty.csv",
-                                              :free_or_reduced_price_lunch => "./data/Students qualifying for free or reduced price lunch.csv",
-                                              :title_i => "./data/Title I students.csv"
-                                              }
-                          })
     district_name = "ACADEMY 20"
-    mhi = epr.get_median_household_income(data_set, district_name)
+    mhi = @epr.get_median_household_income(@data_set, district_name)
     expected = {
                 [2005, 2009] => 85060, 
                 [2006, 2010] => 85450, 
@@ -77,18 +49,8 @@ class TestEconomicProfileRepository < Minitest::Test
   end
 
   def test_get_children_in_poverty
-    epr = EconomicProfileRepository.new
-    data_set = epr.load_data({
-                          :economic_profile => 
-                                              {
-                                              :median_household_income => "./data/Median household income.csv",
-                                              :children_in_poverty => "./data/School-aged children in poverty.csv",
-                                              :free_or_reduced_price_lunch => "./data/Students qualifying for free or reduced price lunch.csv",
-                                              :title_i => "./data/Title I students.csv"
-                                              }
-                          })
     district_name = "ACADEMY 20"
-    cip = epr.get_children_in_poverty(data_set, district_name)
+    cip = @epr.get_children_in_poverty(@data_set, district_name)
     expected = {
                 1995 => 0.032,
                 1997 => 0.035,
@@ -112,18 +74,8 @@ class TestEconomicProfileRepository < Minitest::Test
   end
 
   def test_get_free_or_reduced_price_lunch
-    epr = EconomicProfileRepository.new
-    data_set = epr.load_data({
-                          :economic_profile => 
-                                              {
-                                              :median_household_income => "./data/Median household income.csv",
-                                              :children_in_poverty => "./data/School-aged children in poverty.csv",
-                                              :free_or_reduced_price_lunch => "./data/Students qualifying for free or reduced price lunch.csv",
-                                              :title_i => "./data/Title I students.csv"
-                                              }
-                          })
     district_name = "ACADEMY 20"
-    free_or_reduced_lunch = epr.get_free_or_reduced_price_lunch(data_set, "ACADEMY 20")
+    free_or_reduced_lunch = @epr.get_free_or_reduced_price_lunch(@data_set, "ACADEMY 20")
     expected = {
                 2014=>{:percentage=>0.12743, :total=>3132}, 
                 2012=>{:percentage=>0.12539, :total=>3006}, 
@@ -145,18 +97,8 @@ class TestEconomicProfileRepository < Minitest::Test
   end
 
     def test_get_title_i
-    epr = EconomicProfileRepository.new
-    data_set = epr.load_data({
-                          :economic_profile => 
-                                              {
-                                              :median_household_income => "./data/Median household income.csv",
-                                              :children_in_poverty => "./data/School-aged children in poverty.csv",
-                                              :free_or_reduced_price_lunch => "./data/Students qualifying for free or reduced price lunch.csv",
-                                              :title_i => "./data/Title I students.csv"
-                                              }
-                          })
     district_name = "ACADEMY 20"
-    title_i = epr.get_title_i(data_set, "ACADEMY 20")
+    title_i = @epr.get_title_i(@data_set, "ACADEMY 20")
     expected = {
                 2009=>0.014, 
                 2011=>0.011, 
