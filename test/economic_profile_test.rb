@@ -19,13 +19,32 @@ class TestEconomicProfile < Minitest::Test
   end
 
   def test_median_household_income_in_year
-    skip
     assert_equal 50000, @economic_profile.median_household_income_in_year(2005)
     assert_equal 55000, @economic_profile.median_household_income_in_year(2009)
+    assert_raises(UnknownDataError) { @economic_profile.median_household_income_in_year(2001) }
   end
 
   def test_median_household_income_average
-    skip
     assert_equal 55000, @economic_profile.median_household_income_average
+  end
+
+  def test_children_in_poverty_in_year
+    assert_equal 0.184, @economic_profile.children_in_poverty_in_year(2012)
+    assert_raises(UnknownDataError) { @economic_profile.children_in_poverty_in_year(1990) }
+  end
+
+  def test_free_or_reduced_price_lunch_percentage_in_year
+    assert_equal 0.023, @economic_profile.free_or_reduced_price_lunch_percentage_in_year(2014)
+    assert_raises(UnknownDataError) { @economic_profile.free_or_reduced_price_lunch_percentage_in_year(1990) }
+  end
+
+  def test_free_or_reduced_price_lunch_number_in_year
+    assert_equal 100, @economic_profile.free_or_reduced_price_lunch_number_in_year(2014)
+    assert_raises(UnknownDataError) { @economic_profile.free_or_reduced_price_lunch_number_in_year(1990) }
+  end
+
+  def test_title_i_in_year
+    assert_equal 0.543, @economic_profile.title_i_in_year(2015)
+    assert_raises(UnknownDataError) { @economic_profile.title_i_in_year(1990) }
   end
 end
