@@ -57,5 +57,36 @@ class EconomicProfileRepository
     children_in_poverty
   end
 
-  #Free or Reduced Lunch
+  def get_free_or_reduced_price_lunch(data_set, district_name)
+    data_set[:economic_profile][:free_or_reduced_price_lunch].rewind
+    free_or_reduced_price_lunch_percent = {}
+    data_set[:economic_profile][:free_or_reduced_price_lunch].each do |row|
+      # binding.pry
+      if (row[:location]).upcase == district_name.upcase && row[:poverty_level] == "Eligible for Free or Reduced Lunch" && row[:dataformat] == "Percent"
+        # binding.pry
+        free_or_reduced_price_lunch_percent[(row[:timeframe]).to_i] = {}
+        free_or_reduced_price_lunch_percent[(row[:timeframe]).to_i][:percentage] = row[:data].to_f
+      end
+    end
+    data_set[:economic_profile][:free_or_reduced_price_lunch].rewind
+    free_or_reduced_price_lunch_number = {}
+    data_set[:economic_profile][:free_or_reduced_price_lunch].each do |row|
+      if (row[:location]).upcase == district_name.upcase && row[:poverty_level] == "Eligible for Free or Reduced Lunch" && row[:dataformat] == "Number"
+        # binding.pry
+        free_or_reduced_price_lunch_number[(row[:timeframe]).to_i] = {}
+        free_or_reduced_price_lunch_number[(row[:timeframe]).to_i][:total] = row[:data].to_i
+      end
+    end
+
+    free_or_reduced_price_lunch = {}
+    free_or_reduced_price_lunch_percent.each do |key, value|
+      free_or_reduced_price_lunch[key] = value.merge(free_or_reduced_price_lunch_number[key])
+
+    end
+    free_or_reduced_price_lunch
+  end
+
+  # elsif row[:dataformat] == "Number"
+  #         free_or_reduced_price_lunch_percent[(row[:timeframe]).to_i][:total] = row[:data].to_i
+        
 end

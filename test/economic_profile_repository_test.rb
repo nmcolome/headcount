@@ -111,7 +111,7 @@ class TestEconomicProfileRepository < Minitest::Test
     assert_equal expected, cip
   end
 
-    def test_get_free_or_reduced_price_lunch
+  def test_get_free_or_reduced_price_lunch
     epr = EconomicProfileRepository.new
     data_set = epr.load_data({
                           :economic_profile => 
@@ -123,8 +123,24 @@ class TestEconomicProfileRepository < Minitest::Test
                                               }
                           })
     district_name = "ACADEMY 20"
-    free_or_reduced_lunch = epr.get_free_or_reduced_price_lunch(data_set, district_name)
-    expected = {2014 => {:percentage => 0.12743, :total => 3132}, 2012 => {:percentage => 0.03512, :total => 842}}
+    free_or_reduced_lunch = epr.get_free_or_reduced_price_lunch(data_set, "ACADEMY 20")
+    expected = {
+                2014=>{:percentage=>0.12743, :total=>3132}, 
+                2012=>{:percentage=>0.12539, :total=>3006}, 
+                2011=>{:percentage=>0.1198, :total=>2834}, 
+                2010=>{:percentage=>0.113, :total=>2601}, 
+                2009=>{:percentage=>0.1034, :total=>2338}, 
+                2013=>{:percentage=>0.13173, :total=>3225}, 
+                2008=>{:percentage=>0.0939, :total=>2058}, 
+                2007=>{:percentage=>0.08, :total=>1630}, 
+                2006=>{:percentage=>0.0723, :total=>1534}, 
+                2005=>{:percentage=>0.0587, :total=>1204}, 
+                2004=>{:percentage=>0.0596, :total=>1182}, 
+                2003=>{:percentage=>0.06, :total=>1062}, 
+                2002=>{:percentage=>0.0484, :total=>905}, 
+                2001=>{:percentage=>0.04714, :total=>855}, 
+                2000=>{:percentage=>0.04, :total=>701}
+                }
     assert_equal expected, free_or_reduced_lunch
   end
 end
