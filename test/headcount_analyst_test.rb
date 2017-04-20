@@ -179,42 +179,81 @@ class TestHeadcountAnalyst < Minitest::Test
     refute outcome_2
   end
 
-  def test_high_median_income
-    dr = DistrictRepository.new
-    data = dr.load_data({
-      :enrollment => {
-        :kindergarten => "./test/fixtures/k_5lines.csv",
-        :high_school_graduation => "./test/fixtures/hs_5lines.csv",
-      },
-      :economic_profile => {
-        :median_household_income => "./data/Median household income.csv",
-        :children_in_poverty => "./data/School-aged children in poverty.csv",
-        :free_or_reduced_price_lunch => "./data/Students qualifying for free or reduced price lunch.csv",
-        :title_i => "./data/Title I students.csv"
-      }
-    })
-    ha = HeadcountAnalyst.new(dr)
-    outcome = ha.high_median_income
-    assert_equal Array, outcome.class
-  end
+  # def test_high_median_income
+  #   dr = DistrictRepository.new
+  #   data = dr.load_data({
+  #     :enrollment => {
+  #       :kindergarten => "./test/fixtures/k_5lines.csv",
+  #       :high_school_graduation => "./test/fixtures/hs_5lines.csv",
+  #     },
+  #     :economic_profile => {
+  #       :median_household_income => "./data/Median household income.csv",
+  #       :children_in_poverty => "./test/fixtures/academy_children.csv",
+  #       :free_or_reduced_price_lunch => "./test/fixtures/academy_lunch.csv",
+  #       :title_i => "./test/fixtures/academy_title.csv"
+  #     }
+  #   })
+  #   ha = HeadcountAnalyst.new(dr)
+  #   outcome = ha.high_median_income
+  #   assert_equal Array, outcome.class
+  # end
 
-  def test_high_children_in_poverty
-    skip
+  # def test_high_children_in_poverty
+  #   dr = DistrictRepository.new
+  #   data = dr.load_data({
+  #     :enrollment => {
+  #       :kindergarten => "./test/fixtures/k_5lines.csv",
+  #       :high_school_graduation => "./test/fixtures/hs_5lines.csv",
+  #     },
+  #     :economic_profile => {
+  #       :median_household_income => "./test/fixtures/academy_median.csv",
+  #       :children_in_poverty => "./data/School-aged children in poverty.csv",
+  #       :free_or_reduced_price_lunch => "./test/fixtures/academy_lunch.csv",
+  #       :title_i => "./test/fixtures/academy_title.csv"
+  #     }
+  #   })
+  #   ha = HeadcountAnalyst.new(dr)
+  #   outcome = ha.high_children_in_poverty
+  #   assert_equal Array, outcome.class
+  # end
+
+  # def test_high_income_disparity
+  #   dr = DistrictRepository.new
+  #   data = dr.load_data({
+  #     :enrollment => {
+  #       :kindergarten => "./test/fixtures/k_5lines.csv",
+  #       :high_school_graduation => "./test/fixtures/hs_5lines.csv",
+  #     },
+  #     :economic_profile => {
+  #       :median_household_income => "./data/Median household income.csv",
+  #       :children_in_poverty => "./data/School-aged children in poverty.csv",
+  #       :free_or_reduced_price_lunch => "./test/fixtures/academy_lunch.csv",
+  #       :title_i => "./test/fixtures/academy_title.csv"
+  #     }
+  #   })
+  #   ha = HeadcountAnalyst.new(dr)
+
+  #   assert_equal  ["HINSDALE COUNTY RE 1", "KIT CARSON R-1"], ha.high_income_disparity
+  #   assert_instance_of Array, ha.high_income_disparity
+  # end
+
+  def test_high_poverty_and_high_school_graduation
     dr = DistrictRepository.new
     data = dr.load_data({
       :enrollment => {
         :kindergarten => "./test/fixtures/k_5lines.csv",
-        :high_school_graduation => "./test/fixtures/hs_5lines.csv",
+        :high_school_graduation => "./data/High school graduation rates.csv",
       },
       :economic_profile => {
-        :median_household_income => "./data/Median household income.csv",
+        :median_household_income => "./test/fixtures/academy_median.csv",
         :children_in_poverty => "./data/School-aged children in poverty.csv",
         :free_or_reduced_price_lunch => "./data/Students qualifying for free or reduced price lunch.csv",
-        :title_i => "./data/Title I students.csv"
+        :title_i => "./test/fixtures/academy_title.csv"
       }
     })
     ha = HeadcountAnalyst.new(dr)
-    outcome = ha.high_children_in_poverty
-    assert_equal Array, outcome.class
+
+    assert_equal  "cat", ha.high_poverty_and_high_school_graduation
+    assert_instance_of Array, ha.high_poverty_and_high_school_graduation
   end
 end
