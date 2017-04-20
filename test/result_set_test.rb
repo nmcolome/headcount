@@ -14,6 +14,8 @@ class TestResultSet < Minitest::Test
         high_school_graduation_rate: 0.6})
 
     rs = ResultSet.new(matching_districts: [r1], statewide_average: r2)
-    assert_instance_of ResultTest, rs
+    assert_instance_of ResultSet, rs
+    assert_equal [r1], rs.matching_districts
+    assert_instance_of ResultEntry, rs.statewide_average
   end
 end
