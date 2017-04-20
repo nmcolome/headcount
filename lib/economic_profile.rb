@@ -77,4 +77,16 @@ class EconomicProfile
       raise UnknownDataError
     end
   end
+
+  def children_in_poverty_average
+    children_rate = children_in_poverty.map { |years, value| value }
+    average(children_rate)
+  end
+
+  def free_or_reduced_price_lunch_average
+    reduced_lunch_average = free_or_reduced_price_lunch.map do |years, value|
+      value[:percentage]
+    end
+    average(reduced_lunch_average)
+  end
 end

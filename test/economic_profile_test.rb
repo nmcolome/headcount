@@ -47,4 +47,12 @@ class TestEconomicProfile < Minitest::Test
     assert_equal 0.543, @economic_profile.title_i_in_year(2015)
     assert_raises(UnknownDataError) { @economic_profile.title_i_in_year(1990) }
   end
+
+  def test_children_in_poverty_average
+    assert_equal 0.1845, @economic_profile.children_in_poverty_average
+  end
+
+  def test_free_or_reduced_price_lunch_average
+    assert_equal 0.023, @economic_profile.free_or_reduced_price_lunch_average
+  end
 end

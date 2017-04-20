@@ -73,7 +73,7 @@ class HeadcountAnalyst
     across_districts = args[:across]
     all_district_correlations = []
     if for_district == 'STATEWIDE'
-      # all_district_correlations = []
+      all_district_correlations = []
       district_repository.districts.each do |district_name, district_data|
         all_district_correlations << individual_correlation(district_name)
       end
@@ -93,6 +93,38 @@ class HeadcountAnalyst
   def individual_correlation(for_district)
     correlation = kindergarten_participation_against_high_school_graduation(for_district)
     correlation >= 0.6 && correlation <= 1.5
+  end
+
+  def high_median_income
+    median_average = {}
+    district_repository.districts.each do |district_name|
+      value = district_name.last.economic_profile.median_household_income_average
+      key = district_name.first
+      median_average[key] = value
+    end
+    high_disparity = []
+    median_average.each do |district, value|
+      if value > median_average["COLORADO"]
+        high_disparity << district
+      end
+    end
+    high_disparity
+  end
+
+  def high_children_in_poverty
+    median_average = {}
+    district_repository.districts.each do |district_name|
+      value = district_name.last.economic_profile.#NEW METHOD
+      key = district_name.first
+      median_average[key] = value
+    end
+    high_disparity = []
+    median_average.each do |district, value|
+      if value > median_average["COLORADO"]
+        high_disparity << district
+      end
+    end
+    high_disparity
   end
 
   private

@@ -28,4 +28,13 @@ class Enrollment
     return nil if graduation_rate[year].nil?
     graduation_rate[year].to_s[0..4].to_f
   end
+
+  def graduation_rate_average
+    graduation_average = graduation_rate.map { |years, value| value }
+    average(graduation_average)
+  end
+
+  def average(data)
+    data.reduce(0) { |sum, number| sum + number.to_f} / data.count
+  end
 end
