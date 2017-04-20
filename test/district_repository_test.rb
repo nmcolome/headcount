@@ -374,6 +374,5 @@ class TestDistrictRepository < Minitest::Test
     refute district.economic_profile.children_in_poverty.empty?
     refute district.economic_profile.free_or_reduced_price_lunch.empty?
     refute district.economic_profile.title_i.empty?
-
   end
 end
