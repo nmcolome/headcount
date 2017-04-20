@@ -15,7 +15,7 @@ class StatewideTest
   def races
     [:asian, :black, :pacific_islander, :hispanic, :native_american, :two_or_more, :white]
   end
-  
+
   def subjects
     [:math, :reading, :writing]
   end
@@ -46,7 +46,7 @@ class StatewideTest
 
   def turn_data_to_f(value)
     value.each do |score, data|
-      is_digit = data.to_s.split(//).all? do |char| 
+      is_digit = data.to_s.split(//).all? do |char|
         ("0".."9").to_a.include?(char) || char == "."
         end
       if is_digit

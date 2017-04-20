@@ -128,5 +128,4 @@ class TestEnrollment < Minitest::Test
 
     assert_equal 0.898312, enrollment.graduation_rate_average
   end
-
 end

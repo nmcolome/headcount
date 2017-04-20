@@ -1,4 +1,3 @@
-require 'csv'
 require_relative 'repository_module'
 require_relative 'enrollment'
 
@@ -11,7 +10,6 @@ class EnrollmentRepository
     statewide_testing = args[:statewide_testing]
     economic_profile = args[:economic_profile]
     data_set = get_data(args)
-    # enrollment_repository.initialize_instances(data_set)
     initialize_instances(data_set)
     data_set
   end
@@ -43,7 +41,7 @@ class EnrollmentRepository
     matches
   end
 
-  def get_participation(data_set, district_name) 
+  def get_participation(data_set, district_name)
     data_set[:enrollment][:kindergarten].rewind
     participation = {}
     data_set[:enrollment][:kindergarten].each do |row|

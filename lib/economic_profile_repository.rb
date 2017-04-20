@@ -1,4 +1,3 @@
-require 'csv'
 require_relative 'repository_module'
 require_relative 'economic_profile'
 
@@ -18,10 +17,12 @@ class EconomicProfileRepository
   def initialize_instances(data_set)
     @economic_profiles = {}
     unique_districts(data_set).each do |district_name|
-      median_household_income = get_median_household_income(data_set, district_name) unless data_set[:economic_profile].nil?
-      children_in_poverty = get_children_in_poverty(data_set, district_name) unless data_set[:economic_profile].nil?
-      free_or_reduced_price_lunch = get_free_or_reduced_price_lunch(data_set, district_name) unless data_set[:economic_profile].nil?
-      title_i = get_title_i(data_set, district_name) unless data_set[:economic_profile].nil?
+      unless data_set[:economic_profile].nil?
+        median_household_income = get_median_household_income(data_set, district_name)
+        children_in_poverty = get_children_in_poverty(data_set, district_name)
+        free_or_reduced_price_lunch = get_free_or_reduced_price_lunch(data_set, district_name)
+        title_i = get_title_i(data_set, district_name)
+      end
       @economic_profiles[district_name.upcase] = EconomicProfile.new({
                                                                 :median_household_income => median_household_income,
                                                                 :children_in_poverty => children_in_poverty,
@@ -64,9 +65,7 @@ class EconomicProfileRepository
     data_set[:economic_profile][:free_or_reduced_price_lunch].rewind
     free_or_reduced_price_lunch_percent = {}
     data_set[:economic_profile][:free_or_reduced_price_lunch].each do |row|
-      # binding.pry
       if (row[:location]).upcase == district_name.upcase && row[:poverty_level] == "Eligible for Free or Reduced Lunch" && row[:dataformat] == "Percent"
-        # binding.pry
         free_or_reduced_price_lunch_percent[(row[:timeframe]).to_i] = {}
         free_or_reduced_price_lunch_percent[(row[:timeframe]).to_i][:percentage] = row[:data].to_f
       end
@@ -75,7 +74,6 @@ class EconomicProfileRepository
     free_or_reduced_price_lunch_number = {}
     data_set[:economic_profile][:free_or_reduced_price_lunch].each do |row|
       if (row[:location]).upcase == district_name.upcase && row[:poverty_level] == "Eligible for Free or Reduced Lunch" && row[:dataformat] == "Number"
-        # binding.pry
         free_or_reduced_price_lunch_number[(row[:timeframe]).to_i] = {}
         free_or_reduced_price_lunch_number[(row[:timeframe]).to_i][:total] = row[:data].to_i
       end
@@ -94,10 +92,9 @@ class EconomicProfileRepository
     title_i = {}
     data_set[:economic_profile][:title_i].each do |row|
       if (row[:location]).upcase == district_name.upcase
-        is_digit = row[:data].to_s.split(//).all? do |char| 
+        is_digit = row[:data].to_s.split(//).all? do |char|
           ("0".."9").to_a.include?(char) || char == "."
         end
-        # binding.pry
         if is_digit
           value = row[:data].to_f
         else
