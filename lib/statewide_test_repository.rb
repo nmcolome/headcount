@@ -16,20 +16,31 @@ class StatewideTestRepository
 
   def initialize_instances(data_set)
     @statewide_tests = {}
-    unique_districts(data_set).each do |district_name|
-      third_grade_data = get_testing_data_by_grade(district_name, data_set, :third_grade) unless data_set[:statewide_testing].nil?
-      eighth_grade_data = get_testing_data_by_grade(district_name, data_set, :eighth_grade) unless data_set[:statewide_testing].nil?
-      math_data = get_testing_data_by_ethnicity(district_name, data_set, :math) unless data_set[:statewide_testing].nil?
-      reading_data = get_testing_data_by_ethnicity(district_name, data_set, :reading) unless data_set[:statewide_testing].nil?
-      writing_data = get_testing_data_by_ethnicity(district_name, data_set, :writing) unless data_set[:statewide_testing].nil?
-      @statewide_tests[district_name.upcase] = StatewideTest.new({
-                                                    :name => district_name.upcase,
-                                                    :third_grade_data => third_grade_data,
-                                                    :eighth_grade_data => eighth_grade_data,
-                                                    :math_data => math_data,
-                                                    :reading_data => reading_data,
-                                                    :writing_data => writing_data
-                                                  })
+    unique_districts(data_set).each do |name|
+      unless data_set[:statewide_testing].nil?
+        third = get_testing_data_by_grade(name, data_set, :third_grade)
+      end
+      unless data_set[:statewide_testing].nil?
+        eighth = get_testing_data_by_grade(name, data_set, :eighth_grade)
+      end
+      unless data_set[:statewide_testing].nil?
+        math = get_testing_data_by_ethnicity(name, data_set, :math)
+      end
+      unless data_set[:statewide_testing].nil?
+        reading = get_testing_data_by_ethnicity(name, data_set, :reading)
+      end
+      unless data_set[:statewide_testing].nil?
+        writing = get_testing_data_by_ethnicity(name, data_set, :writing)
+      end
+      @statewide_tests[name.upcase] = StatewideTest.new(
+        {
+        :name => name.upcase,
+        :third_grade_data => third,
+        :eighth_grade_data => eighth,
+        :math_data => math,
+        :reading_data => reading,
+        :writing_data => writing
+        })
     end
   end
 
