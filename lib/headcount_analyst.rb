@@ -114,10 +114,16 @@ class HeadcountAnalyst
   def high_children_in_poverty
     median_average = {}
     district_repository.districts.each do |district_name|
-      value = district_name.last.economic_profile.#NEW METHOD
+      value = district_name.last.economic_profile.children_in_poverty_average
       key = district_name.first
       median_average[key] = value
     end
+    statewide_average = district_repository.districts.map do |district_name|
+      district_name.last.economic_profile.children_in_poverty.map do |years, value|value
+      end
+    end
+    statewide_average.flatten!.delete(0.0)
+    median_average["COLORADO"] = calculate_average(statewide_average)
     high_disparity = []
     median_average.each do |district, value|
       if value > median_average["COLORADO"]
@@ -125,6 +131,46 @@ class HeadcountAnalyst
       end
     end
     high_disparity
+  end
+
+  def high_income_disparity
+    high_median_income & high_children_in_poverty
+  end
+
+  def high_graduation_rate
+    graduation_average = {}
+    district_repository.districts.each do |district_name|
+      value = district_name.last.enrollment.graduation_rate_average
+      key = district_name.first
+      graduation_average[key] = value
+    end
+    high_disparity = []
+    graduation_average.each do |district, value|
+      if value > graduation_average["COLORADO"]
+        high_disparity << district
+      end
+    end
+    high_disparity
+  end
+
+  def high_reduced_lunch
+    reduced_lunch_average = {}
+    district_repository.districts.each do |district_name|
+      value = district_name.last.economic_profile.free_or_reduced_price_lunch_average
+      key = district_name.first
+      reduced_lunch_average[key] = value
+    end
+    high_disparity = []
+    reduced_lunch_average.each do |district, value|
+      if value > reduced_lunch_average["COLORADO"]
+        high_disparity << district
+      end
+    end
+    high_disparity
+  end
+
+  def high_poverty_and_high_school_graduation
+    high_graduation_rate & high_children_in_poverty & high_reduced_lunch
   end
 
   private

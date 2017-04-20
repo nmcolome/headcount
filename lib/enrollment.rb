@@ -35,6 +35,10 @@ class Enrollment
   end
 
   def average(data)
-    data.reduce(0) { |sum, number| sum + number.to_f} / data.count
+    if data.count != 0
+      data.reduce(0) { |sum, number| sum + number.to_f} / data.count
+    else
+      0
+    end
   end
 end
