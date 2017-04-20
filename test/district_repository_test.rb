@@ -1,3 +1,6 @@
+require 'simplecov'
+SimpleCov.start
+
 require_relative 'test_helper'
 
 require './lib/district_repository'
@@ -23,6 +26,12 @@ class TestDistrictRepository < Minitest::Test
         :math => "./test/fixtures/math_5lines.csv",
         :reading => "./test/fixtures/reading_5lines.csv",
         :writing => "./test/fixtures/writing_5lines.csv"
+      },
+      :economic_profile => {
+        :median_household_income => "./test/fixtures/academy_median.csv",
+        :children_in_poverty => "./test/fixtures/academy_children.csv",
+        :free_or_reduced_price_lunch => "./test/fixtures/academy_lunch.csv",
+        :title_i => "./test/fixtures/academy_title.csv"
       }
     })
 
@@ -42,6 +51,39 @@ class TestDistrictRepository < Minitest::Test
         :math => "./test/fixtures/math_5lines.csv",
         :reading => "./test/fixtures/reading_5lines.csv",
         :writing => "./test/fixtures/writing_5lines.csv"
+      },
+      :economic_profile => {
+        :median_household_income => "./test/fixtures/academy_median.csv",
+        :children_in_poverty => "./test/fixtures/academy_children.csv",
+        :free_or_reduced_price_lunch => "./test/fixtures/academy_lunch.csv",
+        :title_i => "./test/fixtures/academy_title.csv"
+      }
+    })
+
+    assert_instance_of EnrollmentRepository, dr.enrollment_repository
+    assert_instance_of StatewideTestRepository, dr. statewide_test_repository
+    assert_instance_of EconomicProfileRepository, dr.economic_profile_repository
+  end
+
+  def test_access_to_districts
+    dr = DistrictRepository.new
+    data = dr.load_data({
+      :enrollment => {
+        :kindergarten => "./test/fixtures/k_5lines.csv",
+        :high_school_graduation => "./test/fixtures/hs_5lines.csv",
+      },
+      :statewide_testing => {
+        :third_grade => "./test/fixtures/third_5lines.csv",
+        :eighth_grade => "./test/fixtures/eighth_5lines.csv",
+        :math => "./test/fixtures/math_5lines.csv",
+        :reading => "./test/fixtures/reading_5lines.csv",
+        :writing => "./test/fixtures/writing_5lines.csv"
+      },
+      :economic_profile => {
+        :median_household_income => "./test/fixtures/academy_median.csv",
+        :children_in_poverty => "./test/fixtures/academy_children.csv",
+        :free_or_reduced_price_lunch => "./test/fixtures/academy_lunch.csv",
+        :title_i => "./test/fixtures/academy_title.csv"
       }
     })
 

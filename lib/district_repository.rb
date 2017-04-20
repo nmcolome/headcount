@@ -27,14 +27,6 @@ class DistrictRepository
     end
   end
 
-  # def unique_districts(data_set)
-  #   district_names = []
-  #   data_set[:enrollment][:kindergarten].each do |row|
-  #     district_names << row[:location]
-  #   end
-  #   district_names.uniq!
-  # end
-
   def find_by_name(district_name)
     districts[district_name.upcase]
   end

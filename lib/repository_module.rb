@@ -10,7 +10,6 @@ module Repository
     statewide_test_repository.initialize_instances(data_set)
     economic_profile_repository.initialize_instances(data_set)
     initialize_instances(data_set)
-    binding.pry
     data_set
   end
 

@@ -109,4 +109,24 @@ class TestEnrollment < Minitest::Test
     assert_equal 0.895, graduation_rate_in_year
   end
 
+  def test_graduation_rate_average
+    er = EnrollmentRepository.new
+    data = er.load_data({
+      :enrollment => {
+        :kindergarten => "./test/fixtures/academy_k.csv",
+        :high_school_graduation => "./test/fixtures/academy_hs.csv",
+      },
+      :statewide_testing => {
+        :third_grade => "./test/fixtures/third_5lines.csv",
+        :eighth_grade => "./test/fixtures/eighth_5lines.csv",
+        :math => "./test/fixtures/math_5lines.csv",
+        :reading => "./test/fixtures/reading_5lines.csv",
+        :writing => "./test/fixtures/writing_5lines.csv"
+      }
+    })
+    enrollment = er.find_by_name("ACADEMY 20")
+
+    assert_equal 0.898312, enrollment.graduation_rate_average
+  end
+
 end
