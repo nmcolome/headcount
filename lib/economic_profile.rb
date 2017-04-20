@@ -92,8 +92,9 @@ class EconomicProfile
   end
 
   def free_or_reduced_price_lunch_average
-    reduced_lunch_average = free_or_reduced_price_lunch.map do |years, value|
-      value[:percentage]
+    reduced_lunch_average = []
+    free_or_reduced_price_lunch.each do |years, value|
+      reduced_lunch_average << value[:percentage]
     end
     average(reduced_lunch_average)
   end

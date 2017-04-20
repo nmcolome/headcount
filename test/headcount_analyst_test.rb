@@ -179,63 +179,72 @@ class TestHeadcountAnalyst < Minitest::Test
     refute outcome_2
   end
 
-  # def test_high_median_income
-  #   dr = DistrictRepository.new
-  #   data = dr.load_data({
-  #     :enrollment => {
-  #       :kindergarten => "./test/fixtures/k_5lines.csv",
-  #       :high_school_graduation => "./test/fixtures/hs_5lines.csv",
-  #     },
-  #     :economic_profile => {
-  #       :median_household_income => "./data/Median household income.csv",
-  #       :children_in_poverty => "./test/fixtures/academy_children.csv",
-  #       :free_or_reduced_price_lunch => "./test/fixtures/academy_lunch.csv",
-  #       :title_i => "./test/fixtures/academy_title.csv"
-  #     }
-  #   })
-  #   ha = HeadcountAnalyst.new(dr)
-  #   outcome = ha.high_median_income
-  #   assert_equal Array, outcome.class
-  # end
+  def test_high_median_income
+    dr = DistrictRepository.new
+    data = dr.load_data({
+      :enrollment => {
+        :kindergarten => "./test/fixtures/k_5lines.csv",
+        :high_school_graduation => "./test/fixtures/hs_5lines.csv",
+      },
+      :economic_profile => {
+        :median_household_income => "./data/Median household income.csv",
+        :children_in_poverty => "./test/fixtures/academy_children.csv",
+        :free_or_reduced_price_lunch => "./test/fixtures/academy_lunch.csv",
+        :title_i => "./test/fixtures/academy_title.csv"
+      }
+    })
+    ha = HeadcountAnalyst.new(dr)
+    outcome = ha.high_median_income
+    assert_equal Array, outcome.class
+  end
 
-  # def test_high_children_in_poverty
-  #   dr = DistrictRepository.new
-  #   data = dr.load_data({
-  #     :enrollment => {
-  #       :kindergarten => "./test/fixtures/k_5lines.csv",
-  #       :high_school_graduation => "./test/fixtures/hs_5lines.csv",
-  #     },
-  #     :economic_profile => {
-  #       :median_household_income => "./test/fixtures/academy_median.csv",
-  #       :children_in_poverty => "./data/School-aged children in poverty.csv",
-  #       :free_or_reduced_price_lunch => "./test/fixtures/academy_lunch.csv",
-  #       :title_i => "./test/fixtures/academy_title.csv"
-  #     }
-  #   })
-  #   ha = HeadcountAnalyst.new(dr)
-  #   outcome = ha.high_children_in_poverty
-  #   assert_equal Array, outcome.class
-  # end
+  def test_high_children_in_poverty
+    dr = DistrictRepository.new
+    data = dr.load_data({
+      :enrollment => {
+        :kindergarten => "./test/fixtures/k_5lines.csv",
+        :high_school_graduation => "./test/fixtures/hs_5lines.csv",
+      },
+      :economic_profile => {
+        :median_household_income => "./test/fixtures/academy_median.csv",
+        :children_in_poverty => "./data/School-aged children in poverty.csv",
+        :free_or_reduced_price_lunch => "./test/fixtures/academy_lunch.csv",
+        :title_i => "./test/fixtures/academy_title.csv"
+      }
+    })
+    ha = HeadcountAnalyst.new(dr)
+    outcome = ha.high_children_in_poverty
+    assert_equal Array, outcome.class
+  end
 
-  # def test_high_income_disparity
-  #   dr = DistrictRepository.new
-  #   data = dr.load_data({
-  #     :enrollment => {
-  #       :kindergarten => "./test/fixtures/k_5lines.csv",
-  #       :high_school_graduation => "./test/fixtures/hs_5lines.csv",
-  #     },
-  #     :economic_profile => {
-  #       :median_household_income => "./data/Median household income.csv",
-  #       :children_in_poverty => "./data/School-aged children in poverty.csv",
-  #       :free_or_reduced_price_lunch => "./test/fixtures/academy_lunch.csv",
-  #       :title_i => "./test/fixtures/academy_title.csv"
-  #     }
-  #   })
-  #   ha = HeadcountAnalyst.new(dr)
+  def test_high_income_disparity
+    dr = DistrictRepository.new
+    data = dr.load_data({
+      :enrollment => {
+        :kindergarten => "./test/fixtures/k_5lines.csv",
+        :high_school_graduation => "./data/High school graduation rates.csv",
+      },
+      :economic_profile => {
+        :median_household_income => "./data/Median household income.csv",
+        :children_in_poverty => "./data/School-aged children in poverty.csv",
+        :free_or_reduced_price_lunch => "./data/Students qualifying for free or reduced price lunch.csv",
+        :title_i => "./test/fixtures/academy_title.csv"
+      }
+    })
+    ha = HeadcountAnalyst.new(dr)
+    rs = ha.high_income_disparity
 
-  #   assert_equal  ["HINSDALE COUNTY RE 1", "KIT CARSON R-1"], ha.high_income_disparity
-  #   assert_instance_of Array, ha.high_income_disparity
-  # end
+    assert_instance_of ResultSet, rs
+    assert_equal 2, rs.matching_districts.count
+    assert_equal Array, rs.matching_districts.class
+    assert_equal ResultEntry, rs.matching_districts.first.class
+    assert_equal "HINSDALE COUNTY RE 1", rs.matching_districts.first.name
+    assert_equal 63265, rs.matching_districts.first.median_household_income
+    assert_equal 0.205, rs.matching_districts.first.children_in_poverty_rate
+    assert_equal ResultEntry, rs.statewide_average.class
+    assert_equal 57408, rs.statewide_average.median_household_income
+    assert_equal 0.166, rs.statewide_average.children_in_poverty_rate
+  end
 
   def test_high_poverty_and_high_school_graduation
     dr = DistrictRepository.new
@@ -245,15 +254,65 @@ class TestHeadcountAnalyst < Minitest::Test
         :high_school_graduation => "./data/High school graduation rates.csv",
       },
       :economic_profile => {
-        :median_household_income => "./test/fixtures/academy_median.csv",
+        :median_household_income => "./data/Median household income.csv",
         :children_in_poverty => "./data/School-aged children in poverty.csv",
         :free_or_reduced_price_lunch => "./data/Students qualifying for free or reduced price lunch.csv",
         :title_i => "./test/fixtures/academy_title.csv"
       }
     })
     ha = HeadcountAnalyst.new(dr)
+    rs = ha.high_poverty_and_high_school_graduation
 
-    assert_equal  "cat", ha.high_poverty_and_high_school_graduation
-    assert_instance_of Array, ha.high_poverty_and_high_school_graduation
+    assert_instance_of ResultSet, rs
+    assert_equal 52, rs.matching_districts.count
+    assert_equal Array, rs.matching_districts.class
+    assert_equal ResultEntry, rs.matching_districts.first.class
+    assert_equal "ALAMOSA RE-11J", rs.matching_districts.first.name
+    assert_equal 35359, rs.matching_districts.first.median_household_income
+    assert_equal 0.266, rs.matching_districts.first.children_in_poverty_rate
+    assert_equal ResultEntry, rs.statewide_average.class
+    assert_equal 57408, rs.statewide_average.median_household_income
+    assert_equal 0.166, rs.statewide_average.children_in_poverty_rate
+  end
+
+  def test_kindergarten_participation_against_household_income
+    dr = DistrictRepository.new
+    data = dr.load_data({
+      :enrollment => {
+        :kindergarten => "./test/fixtures/academy_k.csv",
+        :high_school_graduation => "./test/fixtures/academy_hs.csv",
+      },
+      :economic_profile => {
+        :median_household_income => "./test/fixtures/academy_median.csv",
+        :children_in_poverty => "./test/fixtures/academy_children.csv",
+        :free_or_reduced_price_lunch => "./test/fixtures/academy_lunch.csv",
+        :title_i => "./test/fixtures/academy_title.csv"
+      }
+    })
+    ha = HeadcountAnalyst.new(dr)
+    outcome = ha.kindergarten_participation_against_household_income('ACADEMY 20')
+    assert_equal 0.766, outcome
+  end
+
+  def test_kindergarten_participation_correlates_with_household_income
+    dr = DistrictRepository.new
+    data = dr.load_data({
+      :enrollment => {
+        :kindergarten => "./test/fixtures/k_5lines.csv",
+        :high_school_graduation => "./data/High school graduation rates.csv",
+      },
+      :economic_profile => {
+        :median_household_income => "./data/Median household income.csv",
+        :children_in_poverty => "./test/fixtures/academy_children.csv",
+        :free_or_reduced_price_lunch => "./test/fixtures/academy_lunch.csv",
+        :title_i => "./test/fixtures/academy_title.csv"
+      }
+    })
+    ha = HeadcountAnalyst.new(dr)
+
+    assert ha.kindergarten_participation_correlates_with_household_income(for: 'ACADEMY 20')
+    assert ha.kindergarten_participation_correlates_with_household_income(for: 'COLORADO')
+    refute ha.kindergarten_participation_correlates_with_household_income(for: 'STATEWIDE')
+    refute ha.kindergarten_participation_correlates_with_household_income(:across => ['ACADEMY 20', 'YUMA SCHOOL DISTRICT 1', 'WILEY RE-13 JT', 'SPRINGFIELD RE-4'])
   end
 end
