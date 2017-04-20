@@ -6,6 +6,7 @@ class TestEconomicProfileRepository < Minitest::Test
 
   def setup
     @epr = EconomicProfileRepository.new
+
     @data_set = @epr.load_data(
       {
       :economic_profile => 
@@ -21,7 +22,7 @@ class TestEconomicProfileRepository < Minitest::Test
   def test_it_exists
     assert_instance_of EconomicProfileRepository, @epr
   end
-  
+
   def test_it_loads_data
     assert_instance_of Hash, @data_set
   end
@@ -78,7 +79,7 @@ class TestEconomicProfileRepository < Minitest::Test
 
   def test_get_free_or_reduced_price_lunch
     district_name = "ACADEMY 20"
-    free_or_reduced_lunch = @epr.get_free_or_reduced_price_lunch(@data_set, "ACADEMY 20")
+    free_or_reduced_lunch = @epr.get_free_reduced_lunch(@data_set, "ACADEMY 20")
     expected = {
                 2014=>{:percentage=>0.12743, :total=>3132},
                 2012=>{:percentage=>0.12539, :total=>3006},

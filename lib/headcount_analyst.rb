@@ -61,12 +61,17 @@ class HeadcountAnalyst
     merged_data_set
   end
 
-  def kindergarten_participation_against_high_school_graduation(district_name)
-    participation_variation = kindergarten_participation_rate_variation(district_name, :against => 'COLORADO')
-    graduation_variation = graduation_rate_variation(district_name, :against => 'COLORADO')
-
-    correlation = participation_variation / graduation_variation
+  def kindergarten_participation_against_high_school_graduation(name)
+    correlation = participation_variation(name) / graduation_variation(name)
     correlation.to_s[0..4].to_f
+  end
+
+  def participation_variation(name)
+    kindergarten_participation_rate_variation(name, against: 'COLORADO')
+  end
+
+  def graduation_variation(name)
+    graduation_rate_variation(name, against: 'COLORADO')
   end
 
   def kindergarten_participation_correlates_with_high_school_graduation(args)
@@ -78,29 +83,31 @@ class HeadcountAnalyst
       district_repository.districts.each do |district_name, district_data|
         all_district_correlations << individual_correlation(district_name)
       end
-      statewide_correlation = all_district_correlations.count(true) / all_district_correlations.length
-      statewide_correlation >= 0.7
+      statewide_correlation(all_district_correlations) >= 0.7
     elsif !for_district.nil?
       individual_correlation(for_district)
     elsif !across_districts.nil?
       across_districts.each do |district_name|
         all_district_correlations << individual_correlation(district_name)
       end
-      statewide_correlation = all_district_correlations.count(true) / all_district_correlations.length
-      statewide_correlation >= 0.7
+      statewide_correlation(all_district_correlations) >= 0.7
     end
   end
 
-  def individual_correlation(for_district)
-    correlation = kindergarten_participation_against_high_school_graduation(for_district)
-    correlation >= 0.6 && correlation <= 1.5
+  def statewide_correlation(all_district_correlations)
+    all_district_correlations.count(true) / all_district_correlations.length
+  end
+
+  def individual_correlation(for_name)
+    corr = kindergarten_participation_against_high_school_graduation(for_name)
+    corr >= 0.6 && corr <= 1.5
   end
 
   def high_median_income
     median_average = {}
-    district_repository.districts.each do |district_name|
-      value = district_name.last.economic_profile.median_household_income_average
-      key = district_name.first
+    district_repository.districts.each do |name|
+      value = name.last.economic_profile.median_household_income_average
+      key = name.first
       median_average[key] = value
     end
     high_disparity = []
@@ -119,8 +126,8 @@ class HeadcountAnalyst
       key = district_name.first
       median_average[key] = value
     end
-    statewide_average = district_repository.districts.map do |district_name|
-      district_name.last.economic_profile.children_in_poverty.map do |years, value|
+    statewide_average = district_repository.districts.map do |name|
+      name.last.economic_profile.children_in_poverty.map do |years, value|
         value
       end
     end
@@ -253,21 +260,19 @@ class HeadcountAnalyst
       district_repository.districts.each do |district_name, district_data|
         all_district_correlations << participation_income_correlation(district_name)
       end
-      statewide_correlation = all_district_correlations.count(true) / all_district_correlations.length
-      statewide_correlation >= 0.7
+      statewide_correlation(all_district_correlations) >= 0.7
     elsif !for_district.nil?
       individual_correlation(for_district)
     elsif !across_districts.nil?
       across_districts.each do |district_name|
         all_district_correlations << participation_income_correlation(district_name)
       end
-      statewide_correlation = all_district_correlations.count(true) / all_district_correlations.length
-      statewide_correlation >= 0.7
+      statewide_correlation(all_district_correlations) >= 0.7
     end
   end
 
-  def participation_income_correlation(district_name)
-    correlation = kindergarten_participation_against_household_income(district_name)
+  def participation_income_correlation(name)
+    correlation = kindergarten_participation_against_household_income(name)
     correlated?(correlation)
   end
 

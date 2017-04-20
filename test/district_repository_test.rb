@@ -39,7 +39,7 @@ class TestDistrictRepository < Minitest::Test
     assert_instance_of CSV, data[:statewide_testing][:eighth_grade]
     assert_instance_of CSV, data[:statewide_testing][:math]
     assert_instance_of CSV, data[:statewide_testing][:reading]
-    assert_instance_of CSV, data[:statewide_testing][:writing] 
+    assert_instance_of CSV, data[:statewide_testing][:writing]
     assert_instance_of CSV, data[:economic_profile][:median_household_income]
     assert_instance_of CSV, data[:economic_profile][:children_in_poverty]
     assert_instance_of CSV, data[:economic_profile][:free_or_reduced_price_lunch]
@@ -175,7 +175,7 @@ class TestDistrictRepository < Minitest::Test
     })
 
     district_3 = dr.find_by_name("academy 20")
-    
+
     assert_equal District, district_3.class
   end
 
@@ -198,7 +198,7 @@ class TestDistrictRepository < Minitest::Test
 
     assert_equal [], matching_districts
   end
-  
+
   def test_find_all_matching_returns_all_district_names
     dr = DistrictRepository.new
     data = dr.load_data({

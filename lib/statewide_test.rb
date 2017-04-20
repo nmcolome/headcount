@@ -1,7 +1,12 @@
 require_relative 'exceptions'
 
 class StatewideTest
-  attr_reader :name, :third_grade_data, :eighth_grade_data, :math_data, :reading_data, :writing_data
+  attr_reader :name,
+              :third_grade_data,
+              :eighth_grade_data,
+              :math_data,
+              :reading_data,
+              :writing_data
 
   def initialize(args)
     @name = args[:name]
@@ -13,7 +18,14 @@ class StatewideTest
   end
 
   def races
-    [:asian, :black, :pacific_islander, :hispanic, :native_american, :two_or_more, :white]
+    [
+      :asian,
+      :black,
+      :pacific_islander,
+      :hispanic,
+      :native_american,
+      :two_or_more,
+      :white]
   end
 
   def subjects
@@ -59,16 +71,16 @@ class StatewideTest
 
   def proficient_by_race_or_ethnicity(selected_race)
     if races.include?(selected_race)
-      proficient = {}
+      profic = {}
       find_unique_years(file_set).each do |year|
-        proficient[year] = {}
+        profic[year] = {}
         count = 0
         subjects.each do |name|
-          proficient[year][name] = (file_set[count][year][selected_race])[0..4].to_f
+          profic[year][name] = file_set[count][year][selected_race][0..4].to_f
           count += 1
         end
       end
-      proficient
+      profic
     else
       raise UnknownRaceError
     end
@@ -82,14 +94,21 @@ class StatewideTest
   end
 
   def proficient_for_subject_by_grade_in_year(subject, grade, year)
-    if grades.include?(grade) && subjects.include?(subject) && find_unique_years([third_grade_data, eighth_grade_data]).include?(year)
+    if grade_subject_year_match?(subject, grade, year)
       proficient_by_grade(grade)[year][subject]
     else
       raise UnknownDataError
     end
   end
 
-    def proficient_for_subject_by_race_in_year(subject, race, year)
+  def grade_subject_year_match?(subject, grade, year)
+    is_grade = grades.include?(grade)
+    is_subject = subjects.include?(subject)
+    is_year = find_unique_years([third_grade_data, eighth_grade_data]).include?(year)
+    is_grade && subject && is_year
+  end
+
+  def proficient_for_subject_by_race_in_year(subject, race, year)
     if races.include?(race) && subjects.include?(subject) && find_unique_years(file_set).include?(year)
       proficient_by_race_or_ethnicity(race)[year][subject]
     else

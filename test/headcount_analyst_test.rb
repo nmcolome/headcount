@@ -45,7 +45,6 @@ class TestHeadcountAnalyst < Minitest::Test
   end
 
   def test_kindergarten_participation_rate_variation
-    # skip
     dr = DistrictRepository.new
     data = dr.load_data({
       :enrollment => {
