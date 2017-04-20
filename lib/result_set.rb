@@ -1,7 +1,10 @@
 require_relative 'result_entry'
 
 class ResultSet
-  attr_reader :matching_districts_data, :statewide_average_data, :matching_districts, :statewide_average
+  attr_reader :matching_districts_data,
+              :statewide_average_data,
+              :matching_districts,
+              :statewide_average
 
   def initialize(args)
     @matching_districts_data = args[:matching_districts_data]
