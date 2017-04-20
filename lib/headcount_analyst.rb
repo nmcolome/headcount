@@ -233,14 +233,55 @@ class HeadcountAnalyst
     high_reduce_lunch_rate
   end
 
-  # def high_poverty_and_high_school_graduation
-  #   high_graduation_rate & high_children_in_poverty & high_reduced_lunch
-  # end
+  def kindergarten_participation_against_household_income(district_name)
+    kindergarten_variation = kindergarten_participation_rate_variation(district_name, :against => 'COLORADO')
+    median_income_variation = get_median_income_variation(district_name)
+    kindergarten_variation / median_income_variation
+  end
+
+  def get_median_income_variation(district_name)
+    get_median_household_income_average(district_name) / get_median_household_income_average("COLORADO")
+  end
+
+  def kindergarten_participation_correlates_with_household_income(args)
+    for_district = args[:for]
+    across_districts = args[:across]
+    all_district_correlations = []
+    if for_district == 'STATEWIDE'
+      all_district_correlations = []
+      district_repository.districts.each do |district_name, district_data|
+        all_district_correlations << participation_income_correlation(district_name)
+      end
+      statewide_correlation = all_district_correlations.count(true)/ all_district_correlations.length
+      statewide_correlation >= 0.7
+    elsif !for_district.nil?
+      individual_correlation(for_district)
+    elsif !across_districts.nil?
+      across_districts.each do |district_name|
+        all_district_correlations << participation_income_correlation(district_name)
+      end
+      statewide_correlation = all_district_correlations.count(true)/ all_district_correlations.length
+      statewide_correlation >= 0.7
+    end
+  end
+  
+  def participation_income_correlation(district_name)
+    correlation = kindergarten_participation_against_household_income(district_name)
+    correlated?(correlation)
+  end
+
+  def correlated?(value)
+    value > 0.6 && value < 1.5
+  end
 
   private
 
   def calculate_average(values)
-   values.reduce(0) { |sum, value| sum + value.to_f } / values.count
+    if values.count != 0
+      values.reduce(0) { |sum, value| sum + value.to_f } / values.count
+    else
+      0
+    end
   end
 
   def variation(dividend, divisor)
