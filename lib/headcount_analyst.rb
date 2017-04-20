@@ -193,38 +193,45 @@ class HeadcountAnalyst
     district_repository.districts[district_name].economic_profile.median_household_income_average
   end
 
-  
-  # def high_graduation_rate
-  #   graduation_average = {}
-  #   district_repository.districts.each do |district_name|
-  #     value = district_name.last.enrollment.graduation_rate_average
-  #     key = district_name.first
-  #     graduation_average[key] = value
-  #   end
-  #   high_disparity = []
-  #   graduation_average.each do |district, value|
-  #     if value > graduation_average["COLORADO"]
-  #       high_disparity << district
-  #     end
-  #   end
-  #   high_disparity
-  # end
+  def high_poverty_and_high_school_graduation
+    matching_names = high_reduced_lunch & high_children_in_poverty & high_graduation_rate
+    matching_districts = get_matching_argument(matching_names)
+    state_average = get_median_average("COLORADO")
+    rs = ResultSet.new(matching_districts_data: matching_districts, statewide_average_data: state_average)
 
-  # def high_reduced_lunch
-  #   reduced_lunch_average = {}
-  #   district_repository.districts.each do |district_name|
-  #     value = district_name.last.economic_profile.free_or_reduced_price_lunch_average
-  #     key = district_name.first
-  #     reduced_lunch_average[key] = value
-  #   end
-  #   high_disparity = []
-  #   reduced_lunch_average.each do |district, value|
-  #     if value > reduced_lunch_average["COLORADO"]
-  #       high_disparity << district
-  #     end
-  #   end
-  #   high_disparity
-  # end
+  end
+
+  def high_graduation_rate
+    graduation_average = {}
+    district_repository.districts.each do |district|
+      value = get_high_school_graduation_average(district.first)
+      key = district.first
+      graduation_average[key] = value
+    end
+    high_graduation = []
+    graduation_average.each do |district, value|
+      if value > get_high_school_graduation_average("COLORADO")
+        high_graduation << district
+      end
+    end
+    high_graduation
+  end
+
+  def high_reduced_lunch
+    reduced_lunch_average = {}
+    district_repository.districts.each do |district|
+      value = get_free_or_reduced_price_lunch_average(district.first)
+      key = district.first
+      reduced_lunch_average[key] = value
+    end
+    high_reduce_lunch_rate = []
+    reduced_lunch_average.each do |district, value|
+      if value > get_free_or_reduced_price_lunch_average("COLORADO")
+        high_reduce_lunch_rate << district
+      end
+    end
+    high_reduce_lunch_rate
+  end
 
   # def high_poverty_and_high_school_graduation
   #   high_graduation_rate & high_children_in_poverty & high_reduced_lunch

@@ -217,7 +217,36 @@ class TestHeadcountAnalyst < Minitest::Test
   #   assert_equal Array, outcome.class
   # end
 
-  def test_high_income_disparity
+  # def test_high_income_disparity
+  #   dr = DistrictRepository.new
+  #   data = dr.load_data({
+  #     :enrollment => {
+  #       :kindergarten => "./test/fixtures/k_5lines.csv",
+  #       :high_school_graduation => "./data/High school graduation rates.csv",
+  #     },
+  #     :economic_profile => {
+  #       :median_household_income => "./data/Median household income.csv",
+  #       :children_in_poverty => "./data/School-aged children in poverty.csv",
+  #       :free_or_reduced_price_lunch => "./data/Students qualifying for free or reduced price lunch.csv",
+  #       :title_i => "./test/fixtures/academy_title.csv"
+  #     }
+  #   })
+  #   ha = HeadcountAnalyst.new(dr)
+  #   rs = ha.high_income_disparity
+
+  #   assert_instance_of ResultSet, rs
+  #   assert_equal 2, rs.matching_districts.count
+  #   assert_equal Array, rs.matching_districts.class
+  #   assert_equal ResultEntry, rs.matching_districts.first.class
+  #   assert_equal "HINSDALE COUNTY RE 1", rs.matching_districts.first.name
+  #   assert_equal 63265, rs.matching_districts.first.median_household_income
+  #   assert_equal 0.205, rs.matching_districts.first.children_in_poverty_rate
+  #   assert_equal ResultEntry, rs.statewide_average
+  #   assert_equal 57408, rs.statewide_average.median_household_income
+  #   assert_equal 0.166, rs.statewide_average.children_in_poverty_rate
+  # end
+
+  def test_high_poverty_and_high_school_graduation
     dr = DistrictRepository.new
     data = dr.load_data({
       :enrollment => {
@@ -232,38 +261,18 @@ class TestHeadcountAnalyst < Minitest::Test
       }
     })
     ha = HeadcountAnalyst.new(dr)
-    rs = ha.high_income_disparity
+    rs = ha.high_poverty_and_high_school_graduation
 
     assert_instance_of ResultSet, rs
-    assert_equal 2, rs.matching_districts.count
+    assert_equal 52, rs.matching_districts.count
     assert_equal Array, rs.matching_districts.class
     assert_equal ResultEntry, rs.matching_districts.first.class
+    assert_equal "ALAMOSA RE-11J", rs.matching_districts.first.name
     binding.pry
-    assert_equal "HINSDALE COUNTY RE 1", rs.matching_districts.first.name
     assert_equal 63265, rs.matching_districts.first.median_household_income
     assert_equal 0.205, rs.matching_districts.first.children_in_poverty_rate
     assert_equal ResultEntry, rs.statewide_average
     assert_equal 57408, rs.statewide_average.median_household_income
     assert_equal 0.166, rs.statewide_average.children_in_poverty_rate
   end
-
-  # def test_high_poverty_and_high_school_graduation
-  #   dr = DistrictRepository.new
-  #   data = dr.load_data({
-  #     :enrollment => {
-  #       :kindergarten => "./test/fixtures/k_5lines.csv",
-  #       :high_school_graduation => "./data/High school graduation rates.csv",
-  #     },
-  #     :economic_profile => {
-  #       :median_household_income => "./test/fixtures/academy_median.csv",
-  #       :children_in_poverty => "./data/School-aged children in poverty.csv",
-  #       :free_or_reduced_price_lunch => "./data/Students qualifying for free or reduced price lunch.csv",
-  #       :title_i => "./test/fixtures/academy_title.csv"
-  #     }
-  #   })
-  #   ha = HeadcountAnalyst.new(dr)
-
-  #   assert_equal  "cat", ha.high_poverty_and_high_school_graduation
-  #   assert_instance_of Array, ha.high_poverty_and_high_school_graduation
-  # end
 end
