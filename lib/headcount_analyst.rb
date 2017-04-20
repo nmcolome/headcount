@@ -11,7 +11,7 @@ class HeadcountAnalyst
   def kindergarten_participation_rate_variation(district_name, comparison)
     dividend = get_average_district_participation(district_name)
     divisor = get_average_district_participation(comparison[:against])
-    variation(dividend, divisor)    
+    variation(dividend, divisor)
   end
 
   def graduation_rate_variation(district_name, comparison)
@@ -21,14 +21,14 @@ class HeadcountAnalyst
   end
 
   def kindergarten_participation_rate_variation_trend(district_name, comparison)
-   district_set = get_district_participation_trend(district_name)
-   comparison_set = get_district_participation_trend(comparison[:against])
-   calculate_variation_trend([district_set, comparison_set])
+    district_set = get_district_participation_trend(district_name)
+    comparison_set = get_district_participation_trend(comparison[:against])
+    calculate_variation_trend([district_set, comparison_set])
   end
 
   def get_district_participation_trend(name)
-   district = district_repository.find_by_name(name)
-   district.enrollment.kindergarten_participation
+    district = district_repository.find_by_name(name)
+    district.enrollment.kindergarten_participation
   end
 
   def get_average_district_participation(name)
@@ -44,21 +44,21 @@ class HeadcountAnalyst
   end
 
   def calculate_variation_trend(combined_data_set)
-   rate_variation_trend = {}
-   merge_data(combined_data_set).each do |key, value|
-     rate_variation_trend[key] = variation(value[0].to_f, value[1].to_f)
+    rate_variation_trend = {}
+    merge_data(combined_data_set).each do |key, value|
+      rate_variation_trend[key] = variation(value[0].to_f, value[1].to_f)
    end
    rate_variation_trend
   end
 
   def merge_data(combined_data_set)
-   merged_data_set = Hash.new{|hash, key| hash[key] = []}
-   combined_data_set.each do |district|
-     district.each do |key, value|
-       merged_data_set[key] << value
+    merged_data_set = Hash.new{ |hash, key| hash[key] = [] }
+    combined_data_set.each do |district|
+      district.each do |key, value|
+        merged_data_set[key] << value
      end
-   end
-   merged_data_set
+    end
+    merged_data_set
   end
 
   def kindergarten_participation_against_high_school_graduation(district_name)
@@ -78,7 +78,7 @@ class HeadcountAnalyst
       district_repository.districts.each do |district_name, district_data|
         all_district_correlations << individual_correlation(district_name)
       end
-      statewide_correlation = all_district_correlations.count(true)/ all_district_correlations.length
+      statewide_correlation = all_district_correlations.count(true) / all_district_correlations.length
       statewide_correlation >= 0.7
     elsif !for_district.nil?
       individual_correlation(for_district)
@@ -86,7 +86,7 @@ class HeadcountAnalyst
       across_districts.each do |district_name|
         all_district_correlations << individual_correlation(district_name)
       end
-      statewide_correlation = all_district_correlations.count(true)/ all_district_correlations.length
+      statewide_correlation = all_district_correlations.count(true) / all_district_correlations.length
       statewide_correlation >= 0.7
     end
   end
@@ -105,7 +105,7 @@ class HeadcountAnalyst
     end
     high_disparity = []
     median_average.each do |district, value|
-      if value > median_average["COLORADO"]
+      if value > median_average['COLORADO']
         high_disparity << district
       end
     end
@@ -120,7 +120,8 @@ class HeadcountAnalyst
       median_average[key] = value
     end
     statewide_average = district_repository.districts.map do |district_name|
-      district_name.last.economic_profile.children_in_poverty.map do |years, value|value
+      district_name.last.economic_profile.children_in_poverty.map do |years, value|
+        value
       end
     end
     statewide_average.flatten!.delete(0.0)
@@ -252,7 +253,7 @@ class HeadcountAnalyst
       district_repository.districts.each do |district_name, district_data|
         all_district_correlations << participation_income_correlation(district_name)
       end
-      statewide_correlation = all_district_correlations.count(true)/ all_district_correlations.length
+      statewide_correlation = all_district_correlations.count(true) / all_district_correlations.length
       statewide_correlation >= 0.7
     elsif !for_district.nil?
       individual_correlation(for_district)
@@ -260,11 +261,11 @@ class HeadcountAnalyst
       across_districts.each do |district_name|
         all_district_correlations << participation_income_correlation(district_name)
       end
-      statewide_correlation = all_district_correlations.count(true)/ all_district_correlations.length
+      statewide_correlation = all_district_correlations.count(true) / all_district_correlations.length
       statewide_correlation >= 0.7
     end
   end
-  
+
   def participation_income_correlation(district_name)
     correlation = kindergarten_participation_against_household_income(district_name)
     correlated?(correlation)
@@ -285,7 +286,7 @@ class HeadcountAnalyst
   end
 
   def variation(dividend, divisor)
-   rate = dividend / divisor
-   rate.round(3)
+    rate = dividend / divisor
+    rate.round(3)
   end
 end
