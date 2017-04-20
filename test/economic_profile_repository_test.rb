@@ -6,15 +6,17 @@ class TestEconomicProfileRepository < Minitest::Test
 
   def setup
     @epr = EconomicProfileRepository.new
-    @data_set = @epr.load_data({
-                          :economic_profile =>
-                                              {
-                                              :median_household_income => "./test/fixtures/academy_median.csv",
-                                              :children_in_poverty => "./test/fixtures/academy_children.csv",
-                                              :free_or_reduced_price_lunch => "./test/fixtures/academy_lunch.csv",
-                                              :title_i => "./test/fixtures/academy_title.csv"
-                                              }
-                          })
+
+    @data_set = @epr.load_data(
+      {
+      :economic_profile => 
+        {
+        :median_household_income => "./test/fixtures/academy_median.csv",
+        :children_in_poverty => "./test/fixtures/academy_children.csv",
+        :free_or_reduced_price_lunch => "./test/fixtures/academy_lunch.csv",
+        :title_i => "./test/fixtures/academy_title.csv"
+        }
+      })
   end
 
   def test_it_exists
@@ -45,6 +47,7 @@ class TestEconomicProfileRepository < Minitest::Test
                 [2007, 2011] => 88099,
                 [2009, 2013] => 89953
               }
+
     assert_equal expected, mhi
   end
 
@@ -70,6 +73,7 @@ class TestEconomicProfileRepository < Minitest::Test
                 2012 => 0.064,
                 2013=>0.048
               }
+
     assert_equal expected, cip
   end
 
@@ -93,10 +97,11 @@ class TestEconomicProfileRepository < Minitest::Test
                 2001=>{:percentage=>0.04714, :total=>855},
                 2000=>{:percentage=>0.04, :total=>701}
                 }
+    
     assert_equal expected, free_or_reduced_lunch
   end
 
-    def test_get_title_i
+  def test_get_title_i
     district_name = "ACADEMY 20"
     title_i = @epr.get_title_i(@data_set, "ACADEMY 20")
     expected = {
@@ -106,17 +111,20 @@ class TestEconomicProfileRepository < Minitest::Test
                 2013=>0.01246,
                 2014=>0.0273
                 }
+
     assert_equal expected, title_i
   end
 
   def test_load_data_manages_new_instances_if_load_data_arguments_empty
     empty_epr = EconomicProfileRepository.new
     data = empty_epr.load_data(
-      :enrollment => {
-                        :kindergarten => "./test/fixtures/k_5lines.csv",
-                        :high_school_graduation => "./test/fixtures/hs_5lines.csv",
-                      }
+      :enrollment => 
+        {
+        :kindergarten => "./test/fixtures/k_5lines.csv",
+        :high_school_graduation => "./test/fixtures/hs_5lines.csv",
+        }
                               )
+
     assert_instance_of EconomicProfileRepository, empty_epr
     refute_instance_of EconomicProfile, empty_epr.economic_profiles
   end

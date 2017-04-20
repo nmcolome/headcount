@@ -252,7 +252,6 @@ class TestDistrictRepository < Minitest::Test
         :writing => "./test/fixtures/writing_5lines.csv"
       }
     })
-
     district = dr.find_by_name("ACADEMY 20")
 
     assert_equal Enrollment, district.enrollment.class
@@ -273,7 +272,6 @@ class TestDistrictRepository < Minitest::Test
         :writing => "./test/fixtures/writing_5lines.csv"
       }
     })
-
     district = dr.find_by_name("ACADEMY 20")
 
     output = district.enrollment.kindergarten_participation_in_year(2010)
@@ -295,7 +293,6 @@ class TestDistrictRepository < Minitest::Test
         :writing => "./test/fixtures/writing_5lines.csv"
       }
     })
-
     district = dr.find_by_name("ACADEMY 20")
 
     output = district.enrollment.kindergarten_participation_by_year
@@ -336,7 +333,6 @@ class TestDistrictRepository < Minitest::Test
         :writing => "./test/fixtures/writing_5lines.csv"
       }
     })
-
     district = dr.find_by_name("ACADEMY 20")
 
     output = district.statewide_test.proficient_for_subject_by_grade_in_year(:math, 3, 2008)

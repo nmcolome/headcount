@@ -202,7 +202,7 @@ def setup
   def test_proficient_by_race_or_ethnicity
     output = @sw.proficient_by_race_or_ethnicity(:asian)
     expected = {:math=>0.816, :reading=>0.897, :writing=>0.826}
-    
+
     assert_equal expected, output[2011]
 
     assert_raises(UnknownRaceError) do
@@ -249,7 +249,7 @@ def setup
                       :writing => "./data/Average proficiency on the CSAP_TCAP by race_ethnicity_ Writing.csv"
                     }
                   })
-    
+
     testing = str.find_by_name("PLATEAU VALLEY 50")
     assert_equal "N/A", testing.proficient_for_subject_by_grade_in_year(:reading, 8, 2011)
   end

@@ -43,10 +43,10 @@ class TestStatewideTestRepository < Minitest::Test
   def test_access_to_statewide_test_object_3rd_grade_data
     output_1 = @str.find_by_name("ACADEMY 20")
 
-    assert_equal Hash, output_1.third_grade_data.class    
+    assert_equal Hash, output_1.third_grade_data.class
     assert_equal Hash, output_1.eighth_grade_data.class
     assert_equal Hash, output_1.math_data.class
     assert_equal Hash, output_1.reading_data.class
     assert_equal Hash, output_1.writing_data.class
   end
-end 
+end

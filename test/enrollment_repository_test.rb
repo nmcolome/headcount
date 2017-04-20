@@ -55,7 +55,7 @@ class TestEnrollmentRepository < Minitest::Test
 
   def test_find_all_matching_can_return_array_of_matches
     enrollments = @er.find_all_matching("CO")
-    
+
     assert_equal Array, enrollments.class
     assert_equal 2, enrollments.count
     assert_equal Enrollment, enrollments.first.class
