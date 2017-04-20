@@ -1,6 +1,3 @@
-require 'simplecov'
-SimpleCov.start
-
 require_relative 'test_helper'
 
 require './lib/district_repository'
